@@ -6,3 +6,7 @@ endale esialgse plaani ja rakenduse kujunduse, mille järgi plaanin veebilehe ü
 
 Esialgse kujunduse visand: https://drive.google.com/file/d/1zx-tgXrJ_QsMUY2G4rUysdHyv2lrtrRT/view?usp=sharing
 
+
+
+Kalender inglise keelde - https://github.com/ElemeFE/element/issues/492
+Placeholderit - Vuetify, https://github.com/vuetifyjs/vuetify/issues/7470, post by - musasoftlabx
