@@ -1,18 +1,19 @@
 <template>
-  <div  class="map-cont">
-    Olen kaart
-  </div>
-
+    <div class="map-cont">
+      Olen kaart
+    </div>
 </template>
 
 <script>
 export default {
-  name: "map"
+  name: "map",
+
+
 }
 </script>
 
 <style scoped>
-.map-cont{
+.map-cont {
   display: flex;
   flex-direction: column;
   justify-content: center;

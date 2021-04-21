@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="day-calculator-container">
       <div class="calc-and-map">
         <Calculator></Calculator>
         <Map></Map>
@@ -47,7 +47,7 @@ export default {
 }
 
 
-.container {
+.day-calculator-container {
   display: flex;
   flex-direction: column;
   justify-content: center;

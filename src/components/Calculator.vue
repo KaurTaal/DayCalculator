@@ -1,48 +1,134 @@
 <template>
   <div class="calc-container">
 
-    <div class="calc-input-data">
-      <div class="calc-input-data-content">
-        <div class="placeholders-info">longitude</div>
-        <div class="placeholders-input">tõus</div>
-      </div>
-
-      <div class="calc-input-data-content">
-        <div class="placeholders-info">langitude</div>
-        <div class="placeholders-input">loojang</div>
-      </div>
-
-      <div class="calc-input-data-content">
-        <div class="placeholders-info">date</div>
-        <div class="placeholders-input">päeva pikkus</div>
+    <div class="calc-item-container">
+      <div class="calc-item-size-container">
+        <v-text-field
+            label="Longitude"
+            rounded
+            outlined
+            dense
+            hide-details
+            color="green"
+        ></v-text-field>
       </div>
     </div>
 
-    <div class="calc-input-result">
-      <div class="calc-input-result-content">
-        <div class="placeholders-info">tõus:</div>
-        <div class="placeholders-input">12:12</div>
+    <div class="calc-item-container">
+      <div class="calc-item-size-container">
+        <v-text-field
+            label="Sunrise"
+            rounded
+            outlined
+            dense
+            hide-details
+            color="green"
+        ></v-text-field>
+      </div>
+    </div>
+
+    <div class="calc-item-container">
+      <div class="calc-item-size-container">
+        <v-text-field
+            label="Langitude"
+            rounded
+            outlined
+            dense
+            hide-details
+            color="green"
+        ></v-text-field>
       </div>
 
-      <div class="calc-input-result-content">
-        <div class="placeholders-info">loojang</div>
-        <div class="placeholders-input">19.58</div>
+    </div>
+
+    <div class="calc-item-container">
+      <div class="calc-item-size-container">
+        <v-text-field
+            label="Sunset"
+            rounded
+            outlined
+            dense
+            hide-details
+            color="green"
+        ></v-text-field>
+      </div>
+    </div>
+
+    <div class="calc-item-container">
+      <div class="calc-item-size-container" style="padding-top: 0.5em">
+        <v-menu
+            ref="menu"
+            v-model="menu"
+            :close-on-content-click="false"
+            :return-value.sync="date"
+            transition="scale-transition"
+            offset-y
+            min-width="auto"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-text-field
+                v-model="date"
+                label="Date"
+                prepend-icon="mdi-calendar"
+                readonly
+                v-bind="attrs"
+                v-on="on"
+                color="green"
+            ></v-text-field>
+          </template>
+          <v-date-picker
+              v-model="date"
+              no-title
+              scrollable
+          >
+            <v-spacer></v-spacer>
+            <v-btn
+                text
+                color="error"
+                @click="menu = false"
+            >
+              Cancel
+            </v-btn>
+            <v-btn
+                text
+                color="primary"
+                @click="$refs.menu.save(date)"
+            >
+              OK
+            </v-btn>
+          </v-date-picker>
+        </v-menu>
       </div>
 
-      <div class="calc-input-result-content">
-        <div class="placeholders-info">date</div>
-        <div class="placeholders-input">päeva pikkus</div>
+    </div>
+
+    <div class="calc-item-container">
+      <div class="calc-item-size-container">
+        <v-text-field
+            label="Day of length"
+            rounded
+            outlined
+            dense
+            hide-details
+            color="green"
+        ></v-text-field>
       </div>
     </div>
 
   </div>
-
 </template>
 
 
 <script>
+
 export default {
-  name: "calculator"
+  name: "calculator",
+
+  data: () => ({
+    date: null,
+    menu: false,
+    modal: false,
+  }),
 }
 
 
@@ -50,43 +136,23 @@ export default {
 
 <style scoped>
 
-
 .calc-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  grid-row-gap: 1em;
 }
 
-
-.calc-input-data, .calc-input-result {
+.calc-item-container {
   display: flex;
-  flex-direction: column;
   justify-content: center;
+  align-content: center;
   align-items: center;
-  background-color: lightblue;
-  width: 100%;
-  height: 100%;
-  gap: 9em;
 }
 
-.placeholders-info{
-  width: 50%;
-  display: flex;
-  justify-content: flex-end;
-}
 
-.placeholders-input{
-  width: 50%;
-  display: flex;
-  justify-content: flex-start
+.calc-item-size-container{
+  width: 10em;
+  height: 3em;
 }
-
-.calc-input-data-content, .calc-input-result-content{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 1em;
-  width: 100%;
-}
-
 
 </style>

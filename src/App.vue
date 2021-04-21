@@ -1,11 +1,13 @@
 <template>
-  <div class="main-container">
+  <v-app>
+    <div data-app class="main-container">
 
-    <Header class="content-padding"></Header>
-    <DayCalculator class="content-padding"></DayCalculator>
-    <Footer class="content-padding"></Footer>
+      <Header class="content-padding"></Header>
+      <DayCalculator class="content-padding"></DayCalculator>
+      <Footer class="content-padding"></Footer>
 
-  </div>
+    </div>
+  </v-app>
 </template>
 
 <script>
@@ -14,19 +16,21 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import DayCalculator from "@/pages/DayCalculator";
+import Vue from 'vue';
+import Vuetify from 'vuetify';
+import 'vuetify/dist/vuetify.min.css';
+import 'element-ui/lib/theme-chalk/index.css'
+
+
+Vue.use(Vuetify);
+
 export default {
   name: 'App',
   components: {DayCalculator, Footer, Header},
 }
 </script>
 
-<style>
-
-.content-padding{
-  padding-left: 1em;
-  padding-right: 1em;
-}
-
+<style scoped>
 .main-container {
   min-height: 100vh; /* will cover the 100% of viewport */
   overflow: hidden;
@@ -35,6 +39,15 @@ export default {
   padding-bottom: 5em; /* height of your footer */
 }
 
+</style>
+
+
+<style>
+
+.content-padding {
+  padding-left: 1em;
+  padding-right: 1em;
+}
 
 * {
   box-sizing: border-box;
@@ -53,5 +66,11 @@ body {
   background-color: grey;
   margin: 0;
 }
+
+.v-text-field{
+  margin-top: unset !important;
+  padding-top: unset !important;
+}
+
 
 </style>
