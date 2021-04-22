@@ -20,9 +20,12 @@ import Vue from 'vue';
 import Vuetify from 'vuetify';
 import 'vuetify/dist/vuetify.min.css';
 import 'element-ui/lib/theme-chalk/index.css'
+import VueLayers from 'vuelayers'
+import 'vuelayers/lib/style.css'
 
 
 Vue.use(Vuetify);
+Vue.use(VueLayers);
 
 export default {
   name: 'App',
@@ -71,6 +74,7 @@ body {
   margin-top: unset !important;
   padding-top: unset !important;
 }
+
 
 
 </style>

@@ -14,7 +14,7 @@
 
 <script>
 import Calculator from "@/components/Calculator";
-import Map from "@/components/Map";
+import Map from "@/components/MapComponent";
 import Diagram from "@/components/Diagram";
 export default {
   name: "Containers",
@@ -44,6 +44,6 @@ export default {
   display: flex;
   flex-direction: row;
   width: 100%;
-  height: 50%;
+  height: 100%;
 }
 </style>
