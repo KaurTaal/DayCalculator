@@ -44,6 +44,8 @@ export default {
   width: 100%;
   justify-content: center;
   align-items: center;
+  padding-bottom: 3em;
+  padding-top: 1em;
 }
 
 
