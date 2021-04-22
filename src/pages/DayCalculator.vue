@@ -17,7 +17,7 @@
 
 import Calculator from "@/components/Calculator";
 import Diagram from "@/components/Diagram";
-import Map from "@/components/Map";
+import Map from "@/components/MapComponent";
 export default {
   name: "day-calculator",
   components: {Map, Diagram, Calculator},
