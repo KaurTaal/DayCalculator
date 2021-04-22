@@ -1,13 +1,19 @@
 <template>
   <div class="diagram-container">
 
-    <el-date-picker
-        v-model="dateRangeValue"
-        type="daterange"
-        range-separator="~"
-        start-placeholder="Start date"
-        end-placeholder="End date">
-    </el-date-picker>
+    <div class="header-container">
+      <el-date-picker
+          v-model="dateRangeValue"
+          type="daterange"
+          range-separator="~"
+          start-placeholder="Start date"
+          end-placeholder="End date">
+      </el-date-picker>
+
+      <div>
+        Excel export?
+      </div>
+    </div>
 
     <button @click="dummyData" style="background-color: lime">Test</button>
 
@@ -33,17 +39,17 @@ export default {
 
       option: {
         grid: {
-          top:10,
-          right:10,
-          left:50,
-          bottom:100
+          top: 10,
+          right: 10,
+          left: 50,
+          bottom: 100
         },
         tooltip: {
-            trigger: 'axis',
-            formatter: 'Tere {b0} TODO lisa sunrise ja sunset ja day length'
+          trigger: 'axis',
+          formatter: 'Tere {b0} TODO lisa sunrise ja sunset ja day length'
         },
-        dataZoom:{
-          type:'slider',
+        dataZoom: {
+          type: 'slider',
           filterMode: "weakFilter",
         },
         xAxis: {
@@ -73,7 +79,7 @@ export default {
 
       const date = new Date();
       for (let i = 0; i < 30; i++) {
-        dates.push(`${date.getDay()}.${date.getMonth()+1}.${date.getFullYear()}`)
+        dates.push(`${date.getDay()}.${date.getMonth() + 1}.${date.getFullYear()}`)
         date.setDate(new Date(date).getDate() + 1);
         vals.push(Math.floor(Math.random() * 100) + 5)
       }
@@ -96,6 +102,13 @@ export default {
   gap: 1em;
   height: 100%;
   width: 100%;
+}
+
+.header-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
 </style>

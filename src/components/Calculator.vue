@@ -129,6 +129,7 @@ export default {
     date: null,
     menu: false,
     modal: false,
+    value1: null,
   }),
 }
 

@@ -30,7 +30,8 @@ import 'vuelayers/lib/style.css';
 
 Vue.use(Vuetify);
 Vue.use(VueLayers);
-Vue.use(Element, ElementUI, { locale })
+Vue.use(Element);
+Vue.use(ElementUI, { locale })
 
 export default {
   name: 'App',
