@@ -1,5 +1,5 @@
 <template>
-  <div class="calculator">
+
     <div class="calc-container">
 
       <div class="calc-item-container">
@@ -117,18 +117,6 @@
       </div>
     </div>
 
-    <div class="period-container">
-        <el-date-picker
-            v-model="value1"
-            type="daterange"
-            range-separator="~"
-            start-placeholder="Start date"
-            end-placeholder="End date">
-        </el-date-picker>
-    </div>
-
-
-  </div>
 </template>
 
 
@@ -162,15 +150,6 @@ export default {
   align-content: center;
   align-items: center;
 }
-
-.period-container{
-  display: grid;
-  grid-template-rows: 1fr;
-  justify-content: center;
-  align-items: center;
-  padding-top: 2em;
-}
-
 
 .calc-item-size-container {
   width: 10em;

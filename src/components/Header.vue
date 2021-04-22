@@ -6,6 +6,7 @@
       <div>language</div>
       <div>theme</div>
       <div>info</div>
+      <div>Git repo</div>
     </div>
 
   </div>
