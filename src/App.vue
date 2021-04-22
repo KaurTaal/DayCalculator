@@ -18,14 +18,19 @@ import Footer from "@/components/Footer";
 import DayCalculator from "@/pages/DayCalculator";
 import Vue from 'vue';
 import Vuetify from 'vuetify';
+import Element from 'element-ui';
+import ElementUI from 'element-ui';
+import locale from 'element-ui/lib/locale/lang/en'
 import 'vuetify/dist/vuetify.min.css';
 import 'element-ui/lib/theme-chalk/index.css'
-import VueLayers from 'vuelayers'
-import 'vuelayers/lib/style.css'
+import VueLayers from 'vuelayers';
+import 'vuelayers/lib/style.css';
+
 
 
 Vue.use(Vuetify);
 Vue.use(VueLayers);
+Vue.use(Element, ElementUI, { locale })
 
 export default {
   name: 'App',
@@ -73,6 +78,34 @@ body {
 .v-text-field{
   margin-top: unset !important;
   padding-top: unset !important;
+}
+
+.el-date-editor{
+  background-color: transparent !important;
+  width: 100%;
+  border: solid;
+  border-radius: 2em;
+  padding-left: 1em;
+}
+
+.el-date-editor:hover{
+  border-color: gray;
+}
+
+.el-range-editor.el-input__inner{
+  border-width: 1px;
+}
+
+.el-date-editor .el-range__icon{
+  text-decoration-color: black !important;
+  font-size: 1.5em;
+  padding-left: 0.5em;
+  color: black !important;
+}
+
+
+.el-range-input::placeholder{
+  color: black !important;
 }
 
 
