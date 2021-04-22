@@ -14,7 +14,7 @@
 
 <script>
 import Calculator from "@/components/Calculator";
-import Map from "@/components/Map";
+import Map from "@/components/MapComponent";
 import Diagram from "@/components/Diagram";
 export default {
   name: "Containers",
