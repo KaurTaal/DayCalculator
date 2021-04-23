@@ -103,7 +103,7 @@
       </div>
     </div>
 
-    <button @click="dummyData" style="background-color: lime">Test</button>
+      <button @click="dummyData" style="background-color: lightblue">Results</button>
 
     <v-chart
         autoresize
@@ -123,7 +123,6 @@ export default {
 
   data() {
     return {
-
       date: null,
       menu: false,
       modal: false,
@@ -148,13 +147,13 @@ export default {
           filterMode: "weakFilter",
         },
         xAxis: {
-          data: ["Date1", "Date2", "Date3", "Date4", "Date5", "Date6"]
+          data: [],
         },
         yAxis: {},
         series: [{
           name: "Length of day",
           type: "line",
-          data: [1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12],
+          data: [],
           smooth: true,
         }],
         lineStyle: {
@@ -167,15 +166,14 @@ export default {
       }
     }
   },
+
   methods: {
     dummyData() {
-      const dates = [];
+      let dates = [];
       const vals = [];
 
-      const date = new Date();
       for (let i = 0; i < 30; i++) {
-        dates.push(`${date.getDay()}.${date.getMonth() + 1}.${date.getFullYear()}`)
-        date.setDate(new Date(date).getDate() + 1);
+        dates = this.getDatePeriod(this.date, this.date2);
         vals.push(Math.floor(Math.random() * 100) + 5)
       }
 
@@ -186,29 +184,42 @@ export default {
     },
 
 
-    getPeriod(startDate, endDate) {
-      const start = startDate < endDate ? startDate : endDate;
-      console.log(start);
+    getDatePeriod(startDate, endDate){
+      let dates = [];
+      let start = this.convertDate(startDate);
+      const end = this.convertDate(endDate);
+      while (start <= end){
+        const date = new Date(start);
+        dates.push(`${date.getDay()}.${date.getMonth() + 1}.${date.getFullYear()}`);
+        start.setDate(start.getDate()+1)
+      }
+      return dates;
+    },
+
+
+    convertDate(date){
+      if (date !== null) {
+        const help = date.split("-");
+        const year = help[0];
+        const month = help[1];
+        const day = help[2];
+        return new Date(year, month - 1, day);
+      }
     }
 
   },
 
-  watch: {
-    date(){
-      if (this.date2 !== null)
-        this.getPeriod(this.date, this.date2)
-    },
-    date2(){
-      if (this.date !== null)
-        this.getPeriod(this.date, this.date2)
-    }
-  }
+
 
 
 };
 </script>
 
 <style scoped>
+
+
+
+
 .diagram-container {
   display: flex;
   flex-direction: column;
@@ -217,7 +228,7 @@ export default {
   width: 100%;
 }
 
-.range-container{
+.range-container {
   display: flex;
   flex-direction: row;
   gap: 1em;
