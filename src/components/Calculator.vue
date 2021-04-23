@@ -134,6 +134,14 @@
 
 <script>
 
+const validateInput = (input) => {
+  input = input.trim();
+  //Algab 1-9 ja järgneb 0-9 0x või mitu korda
+  const rule1 = /^[1-9][0-9]*.[0-9]+$/
+  const rule2 = /^[1-9][0-9]*$/
+  return rule1.test(input) || rule2.test(input);
+}
+
 export default {
   name: "calculator",
 
@@ -149,11 +157,32 @@ export default {
 
     rules: {
       required: value => !!value || 'Required',
-      floatNumber: value => value.toString().indexOf('.') !== -1 || 'Wrong input'
+      floatNumber: value => validateInput(value.toString()) || 'Wrong input'
     }
   }),
 
   methods: {
+    /*
+    console.log(/lolcakes/.test("some string"));
+// Output: false
+     */
+
+    /*
+    validateInput(input){
+      input = input.trim();
+      //Algab 1-9 ja järgneb 0-9 0x või mitu korda
+      const rule1 = /^[1-9][0-9]*.[0-9]+$/
+      const rule2 = /^[1-9][0-9]*$/
+      return rule1.test(input) || rule2.test(input);
+    },
+
+     */
+
+    handleMarkerMove(coords){
+      this.inputLong = coords[0];
+      this.inputLang = coords[1];
+    },
+
     sum(i, j){
       return i+j;
     }
@@ -161,7 +190,17 @@ export default {
 
   watch:{
     inputLang(){
-      if (this.inputLong !== '' && this.inputLong.toString().indexOf('.') !== -1) {
+      if (validateInput(this.inputLang.toString()) && validateInput(this.inputLong.toString()) ) {
+        this.$emit("lonAndLanChange", [this.inputLong, this.inputLang]);
+        this.sunrise = this.inputLong;
+        this.sunset = this.inputLang;
+        this.lenOfDay = this.sum(this.inputLang, this.inputLong);
+      }
+    },
+
+     inputLong(){
+      if (validateInput(this.inputLang.toString()) && validateInput(this.inputLong.toString())) {
+        this.$emit("lonAndLanChange", [this.inputLong, this.inputLang]);
         this.sunrise = this.inputLong;
         this.sunset = this.inputLang;
         this.lenOfDay = this.sum(this.inputLang, this.inputLong);

@@ -2,7 +2,8 @@
   <div class="content">
     <div class="calc-and-map">
       <Calculator></Calculator>
-      <Map></Map>
+      <Map
+      ></Map>
     </div>
 
     <div class="diagram">
@@ -18,7 +19,9 @@ import Map from "@/components/MapComponent";
 import Diagram from "@/components/Diagram";
 export default {
   name: "Containers",
-  components: {Diagram, Map, Calculator}
+  components: {Diagram, Map, Calculator},
+
+
 }
 </script>
 
