@@ -92,6 +92,7 @@ export default {
       });
       modify.on(['modifystart', 'modifyend'], function (evt) {
         target.style.cursor = evt.type === 'modifystart' ? 'grabbing' : 'pointer';
+        console.log(point.getFlatCoordinates())
       });
 
       const overlaySource = modify.getOverlay().getSource();
