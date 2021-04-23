@@ -13,3 +13,6 @@ Placeholderit - Vuetify, https://github.com/vuetifyjs/vuetify/issues/7470, post 
 
 
 Kaart - https://dev.to/camptocamp-geo/integrating-an-openlayers-map-in-vue-js-a-step-by-step-guide-2n1p
+
+Päeva andmete kontroll - https://www.esrl.noaa.gov/gmd/grad/solcalc/
+request - https://sunrise-sunset.org/api
