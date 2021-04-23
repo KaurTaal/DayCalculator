@@ -17,7 +17,7 @@ export default {
   background-color: #ffac62;
   bottom: 0;
   width: 100%;
-  height: 5em;
+  height: 3em;
   align-items: center;
   justify-content: center;
   text-align: center;
