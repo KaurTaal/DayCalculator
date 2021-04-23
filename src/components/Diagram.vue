@@ -10,14 +10,14 @@
               ref="menu"
               v-model="menu"
               :close-on-content-click="false"
-              :return-value.sync="date"
+              :return-value.sync="startDate"
               transition="scale-transition"
               offset-y
               min-width="auto"
           >
             <template v-slot:activator="{ on, attrs }">
               <v-text-field
-                  v-model="date"
+                  v-model="startDate"
                   label="Start date"
                   prepend-icon="mdi-calendar"
                   readonly
@@ -27,7 +27,7 @@
               ></v-text-field>
             </template>
             <v-date-picker
-                v-model="date"
+                v-model="startDate"
                 no-title
                 scrollable
             >
@@ -42,27 +42,27 @@
               <v-btn
                   text
                   color="primary"
-                  @click="$refs.menu.save(date)"
+                  @click="$refs.menu.save(startDate)"
               >
                 OK
               </v-btn>
             </v-date-picker>
           </v-menu>
         </div>
-
+        <div>~</div>
         <div class="end-date">
           <v-menu
               ref="menu2"
               v-model="menu2"
               :close-on-content-click="false"
-              :return-value.sync="date2"
+              :return-value.sync="endDate"
               transition="scale-transition"
               offset-y
               min-width="auto"
           >
             <template v-slot:activator="{ on, attrs }">
               <v-text-field
-                  v-model="date2"
+                  v-model="endDate"
                   label="End date"
                   prepend-icon="mdi-calendar"
                   readonly
@@ -72,7 +72,7 @@
               ></v-text-field>
             </template>
             <v-date-picker
-                v-model="date2"
+                v-model="endDate"
                 no-title
                 scrollable
             >
@@ -87,7 +87,7 @@
               <v-btn
                   text
                   color="primary"
-                  @click="$refs.menu2.save(date2)"
+                  @click="$refs.menu2.save(endDate)"
               >
                 OK
               </v-btn>
@@ -97,13 +97,12 @@
 
       </div>
 
-
       <div>
         Excel export?
       </div>
     </div>
 
-      <button @click="dummyData" style="background-color: lightblue">Results</button>
+    <button @click="dummyData" style="background-color: lightblue">Results</button>
 
     <v-chart
         autoresize
@@ -123,10 +122,10 @@ export default {
 
   data() {
     return {
-      date: null,
+      startDate: null,
+      endDate: null,
       menu: false,
       modal: false,
-      date2: null,
       menu2: false,
       modal2: false,
 
@@ -150,12 +149,14 @@ export default {
           data: [],
         },
         yAxis: {},
-        series: [{
-          name: "Length of day",
-          type: "line",
-          data: [],
-          smooth: true,
-        }],
+        series: [
+          {
+            name: "Length of day",
+            type: "line",
+            data: [],
+            smooth: true,
+          }
+        ],
         lineStyle: {
           color: 'black'
         },
@@ -172,33 +173,35 @@ export default {
       let dates = [];
       const vals = [];
 
+      dates = this.getDatePeriod(this.startDate, this.endDate);
       for (let i = 0; i < 30; i++) {
-        dates = this.getDatePeriod(this.date, this.date2);
         vals.push(Math.floor(Math.random() * 100) + 5)
       }
 
-      console.log(dates)
+      //console.log(dates)
       this.option.series[0].data = vals;
       this.option.xAxis.data = dates;
       this.option = JSON.parse(JSON.stringify(this.option))
     },
 
 
-    getDatePeriod(startDate, endDate){
+    getDatePeriod(startDate, endDate) {
       let dates = [];
       let start = this.convertDate(startDate);
       const end = this.convertDate(endDate);
-      while (start <= end){
+      while (start <= end) {
         const date = new Date(start);
-        dates.push(`${date.getDay()}.${date.getMonth() + 1}.${date.getFullYear()}`);
-        start.setDate(start.getDate()+1)
+        if (date.getDate() < 10)
+          dates.push("0" + `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`);
+        else
+          dates.push(`${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`);
+        start.setDate(start.getDate() + 1)
       }
       return dates;
     },
 
-
-    convertDate(date){
-      if (date !== null) {
+    convertDate(date) {
+      if (date) {
         const help = date.split("-");
         const year = help[0];
         const month = help[1];
@@ -209,15 +212,39 @@ export default {
 
   },
 
+  watch: {
+    startDate(){
+      if (this.startDate && this.endDate){
+        if (this.convertDate(this.startDate) <= this.convertDate(this.endDate))
+          this.dummyData();
+        else {
+          const help = this.startDate;
+          this.startDate = this.endDate;
+          this.endDate = help;
+          this.dummyData();
+        }
+      }
+    },
+    endDate(){
+      if (this.startDate && this.endDate){
+        if (this.convertDate(this.startDate) <= this.convertDate(this.endDate))
+          this.dummyData();
+        else {
+          const help = this.endDate;
+          this.endDate = this.startDate;
+          this.endDate = help;
+          this.dummyData();
+        }
+      }
+    },
 
+  }
 
 
 };
 </script>
 
 <style scoped>
-
-
 
 
 .diagram-container {
