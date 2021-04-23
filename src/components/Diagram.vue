@@ -2,13 +2,101 @@
   <div class="diagram-container">
 
     <div class="header-container">
-      <el-date-picker
-          v-model="dateRangeValue"
-          type="daterange"
-          range-separator="~"
-          start-placeholder="Start date"
-          end-placeholder="End date">
-      </el-date-picker>
+
+      <div class="range-container">
+
+        <div class="start-date">
+          <v-menu
+              ref="menu"
+              v-model="menu"
+              :close-on-content-click="false"
+              :return-value.sync="date"
+              transition="scale-transition"
+              offset-y
+              min-width="auto"
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <v-text-field
+                  v-model="date"
+                  label="Start date"
+                  prepend-icon="mdi-calendar"
+                  readonly
+                  v-bind="attrs"
+                  v-on="on"
+                  color="green"
+              ></v-text-field>
+            </template>
+            <v-date-picker
+                v-model="date"
+                no-title
+                scrollable
+            >
+              <v-spacer></v-spacer>
+              <v-btn
+                  text
+                  color="error"
+                  @click="menu = false"
+              >
+                Cancel
+              </v-btn>
+              <v-btn
+                  text
+                  color="primary"
+                  @click="$refs.menu.save(date)"
+              >
+                OK
+              </v-btn>
+            </v-date-picker>
+          </v-menu>
+        </div>
+
+        <div class="end-date">
+          <v-menu
+              ref="menu2"
+              v-model="menu2"
+              :close-on-content-click="false"
+              :return-value.sync="date2"
+              transition="scale-transition"
+              offset-y
+              min-width="auto"
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <v-text-field
+                  v-model="date2"
+                  label="End date"
+                  prepend-icon="mdi-calendar"
+                  readonly
+                  v-bind="attrs"
+                  v-on="on"
+                  color="green"
+              ></v-text-field>
+            </template>
+            <v-date-picker
+                v-model="date2"
+                no-title
+                scrollable
+            >
+              <v-spacer></v-spacer>
+              <v-btn
+                  text
+                  color="error"
+                  @click="menu2 = false"
+              >
+                Cancel
+              </v-btn>
+              <v-btn
+                  text
+                  color="primary"
+                  @click="$refs.menu2.save(date2)"
+              >
+                OK
+              </v-btn>
+            </v-date-picker>
+          </v-menu>
+        </div>
+
+      </div>
+
 
       <div>
         Excel export?
@@ -35,7 +123,14 @@ export default {
 
   data() {
     return {
-      dateRangeValue: null,
+
+      date: null,
+      menu: false,
+      modal: false,
+      date2: null,
+      menu2: false,
+      modal2: false,
+
 
       option: {
         grid: {
@@ -88,9 +183,27 @@ export default {
       this.option.series[0].data = vals;
       this.option.xAxis.data = dates;
       this.option = JSON.parse(JSON.stringify(this.option))
+    },
+
+
+    getPeriod(startDate, endDate) {
+      const start = startDate < endDate ? startDate : endDate;
+      console.log(start);
     }
 
   },
+
+  watch: {
+    date(){
+      if (this.date2 !== null)
+        this.getPeriod(this.date, this.date2)
+    },
+    date2(){
+      if (this.date !== null)
+        this.getPeriod(this.date, this.date2)
+    }
+  }
+
 
 };
 </script>
@@ -104,7 +217,19 @@ export default {
   width: 100%;
 }
 
-.header-container{
+.range-container{
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+}
+
+.end-date .start-date {
+  width: 100%;
+  height: 3em;
+}
+
+
+.header-container {
   display: flex;
   flex-direction: row;
   justify-content: space-between;

@@ -81,34 +81,5 @@ body {
   padding-top: unset !important;
 }
 
-.el-date-editor{
-  background-color: transparent !important;
-  width: 100%;
-  border: solid;
-  border-radius: 2em;
-  padding-left: 1em;
-}
-
-.el-date-editor:hover{
-  border-color: gray;
-}
-
-.el-range-editor.el-input__inner{
-  border-width: 1px;
-}
-
-.el-date-editor .el-range__icon{
-  text-decoration-color: black !important;
-  font-size: 1.5em;
-  padding-left: 0.5em;
-  color: black !important;
-}
-
-
-.el-range-input::placeholder{
-  color: black !important;
-}
-
-
 
 </style>
