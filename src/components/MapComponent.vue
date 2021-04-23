@@ -15,12 +15,15 @@ import {Style, Circle, Fill, Stroke} from 'ol/style';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
 import VectorSource from 'ol/source/Vector';
-
+import {transform} from 'ol/proj';
 
 
 export default {
 
   name: "map-component",
+
+  data: () => ({
+  }),
 
   methods: {
 
@@ -29,7 +32,8 @@ export default {
       //https://openlayers.org/en/latest/apidoc/module-ol_geom_Point-Point.html
       const point = new Point (fromLonLat([26.7388686, 58.365231]));
 
-      console.log(point.getCoordinates());
+      console.log(transform([point.getCoordinates()[0], point.getCoordinates()[1]], 'EPSG:3857', 'EPSG:4326' ));
+
       const tileLayer = new TileLayer({
         source: new OSM() // tiles are served by OpenStreetMap
       })
@@ -42,16 +46,17 @@ export default {
 
       const iconStyle = new Style({
         image: new Circle({
-          radius: 7,
-          fill: new Fill({color: 'black'}),
+          radius: 5,
+          fill: new Fill({color: 'red'}),
           stroke: new Stroke({
-            color: 'white',
+            color: 'black',
             width: 2,
           }),
         }),
       });
 
       iconFeature.setStyle(iconStyle);
+
 
       const vectorSource = new VectorSource({
         features: [iconFeature],
@@ -105,6 +110,12 @@ export default {
 
   mounted() {
     this.map()
+  },
+
+  watch: {
+    point(){
+      console.log(this.point)
+    }
   }
 
 
