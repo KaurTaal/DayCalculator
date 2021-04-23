@@ -5,12 +5,14 @@
       <div class="calc-item-container">
         <div class="calc-item-size-container">
           <v-text-field
+              v-model="inputLong"
               label="Longitude"
               rounded
               outlined
               dense
               hide-details
               color="green"
+              :rules="[rules.required, rules.floatNumber]"
           ></v-text-field>
         </div>
       </div>
@@ -18,12 +20,14 @@
       <div class="calc-item-container">
         <div class="calc-item-size-container">
           <v-text-field
+              v-model="sunrise"
               label="Sunrise"
               rounded
               outlined
               dense
               hide-details
               color="green"
+              readonly
           ></v-text-field>
         </div>
       </div>
@@ -31,12 +35,15 @@
       <div class="calc-item-container">
         <div class="calc-item-size-container">
           <v-text-field
+              v-model="inputLang"
               label="Langitude"
               rounded
               outlined
               dense
               hide-details
               color="green"
+              :rules="[rules.required, rules.floatNumber]"
+              hint="Example: 50.49094"
           ></v-text-field>
         </div>
 
@@ -45,12 +52,14 @@
       <div class="calc-item-container">
         <div class="calc-item-size-container">
           <v-text-field
+              v-model="sunset"
               label="Sunset"
               rounded
               outlined
               dense
               hide-details
               color="green"
+              readonly
           ></v-text-field>
         </div>
       </div>
@@ -75,6 +84,7 @@
                   v-bind="attrs"
                   v-on="on"
                   color="green"
+                  :rules="[rules.required]"
               ></v-text-field>
             </template>
             <v-date-picker
@@ -106,12 +116,14 @@
       <div class="calc-item-container">
         <div class="calc-item-size-container">
           <v-text-field
+              v-model="lenOfDay"
               label="Day of length"
               rounded
               outlined
               dense
               hide-details
               color="green"
+              readonly
           ></v-text-field>
         </div>
       </div>
@@ -129,8 +141,34 @@ export default {
     date: null,
     menu: false,
     modal: false,
-    value1: null,
+    inputLong: '',
+    inputLang: '',
+    sunrise: null,
+    sunset: null,
+    lenOfDay: null,
+
+    rules: {
+      required: value => !!value || 'Required',
+      floatNumber: value => value.toString().indexOf('.') !== -1 || 'Wrong input'
+    }
   }),
+
+  methods: {
+    sum(i, j){
+      return i+j;
+    }
+  },
+
+  watch:{
+    inputLang(){
+      if (this.inputLong !== '' && this.inputLong.toString().indexOf('.') !== -1) {
+        this.sunrise = this.inputLong;
+        this.sunset = this.inputLang;
+        this.lenOfDay = this.sum(this.inputLang, this.inputLong);
+      }
+    }
+
+  }
 }
 
 
@@ -155,5 +193,6 @@ export default {
   width: 10em;
   height: 3em;
 }
+
 
 </style>
