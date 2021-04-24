@@ -76,7 +76,7 @@ export default {
 
 
       this.map = new Map({
-        // the map will be created using the 'map-root' ref
+        // the map will be created using the 'mapRoot' ref
         target: this.$refs['mapRoot'],
         layers: [
             tileLayer,
@@ -85,9 +85,8 @@ export default {
 
         // the map view will initially show the whole world
         view: new View({
-          zoom: 0,
+          zoom: 2,
           center: fromLonLat([startLon, startLan]),
-          constrainResolution: true,
         }),
       })
 
@@ -103,6 +102,7 @@ export default {
       modify.on(['modifystart', 'modifyend'],  (evt) => {
         target.style.cursor = evt.type === 'modifystart' ? 'grabbing' : 'pointer';
         const coords = transform([this.marker.getFlatCoordinates()[0],this.marker.getFlatCoordinates()[1]], 'EPSG:3857', 'EPSG:4326');
+        //TODO emits are bouncing off of each other
         this.$emit("markerMove", coords);
       });
 

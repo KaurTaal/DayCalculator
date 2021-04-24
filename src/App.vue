@@ -18,20 +18,18 @@ import Footer from "@/components/Footer";
 import DayCalculator from "@/pages/DayCalculator";
 import Vue from 'vue';
 import Vuetify from 'vuetify';
-import Element from 'element-ui';
-import ElementUI from 'element-ui';
-import locale from 'element-ui/lib/locale/lang/en'
 import 'vuetify/dist/vuetify.min.css';
 import 'element-ui/lib/theme-chalk/index.css'
 import VueLayers from 'vuelayers';
 import 'vuelayers/lib/style.css';
+import axios from 'axios';
+import VueAxios from 'vue-axios';
 
 
 
 Vue.use(Vuetify);
 Vue.use(VueLayers);
-Vue.use(Element);
-Vue.use(ElementUI, { locale })
+Vue.use(VueAxios, axios)
 
 export default {
   name: 'App',
