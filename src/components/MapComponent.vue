@@ -22,17 +22,25 @@ export default {
 
   name: "map-component",
 
-  data: () => ({
-  }),
+  data() {
+    return{
+      map: null,
+      marker: null,
+    }
+  },
 
   methods: {
 
-    map() {
+    handleNewLoc(coords){
+      this.setMarkerLoc(coords[0], coords[1]);
+    },
 
-      //https://openlayers.org/en/latest/apidoc/module-ol_geom_Point-Point.html
-      const point = new Point (fromLonLat([26.7388686, 58.365231]));
+    initMap() {
 
-      console.log(transform([point.getCoordinates()[0], point.getCoordinates()[1]], 'EPSG:3857', 'EPSG:4326' ));
+      const startLon = 26.7388686;
+      const startLan = 58.365231;
+      this.marker = new Point (fromLonLat([startLon, startLan]));
+
 
       const tileLayer = new TileLayer({
         source: new OSM() // tiles are served by OpenStreetMap
@@ -40,7 +48,7 @@ export default {
 
 
       const iconFeature = new Feature({
-        geometry: point,
+        geometry: this.marker,
         name: 'name',
       });
 
@@ -67,8 +75,8 @@ export default {
       });
 
 
-      const map = new Map({
-        // the map will be created using the 'map-root' ref
+      this.map = new Map({
+        // the map will be created using the 'mapRoot' ref
         target: this.$refs['mapRoot'],
         layers: [
             tileLayer,
@@ -77,9 +85,8 @@ export default {
 
         // the map view will initially show the whole world
         view: new View({
-          zoom: 0,
-          center: this.setCenter(26.7388686, 58.3652315),
-          constrainResolution: true,
+          zoom: 2,
+          center: fromLonLat([startLon, startLan]),
         }),
       })
 
@@ -90,34 +97,38 @@ export default {
         hitDetection: vectorLayer,
         source: vectorSource,
       });
-      modify.on(['modifystart', 'modifyend'], function (evt) {
+
+
+      modify.on(['modifystart', 'modifyend'],  (evt) => {
         target.style.cursor = evt.type === 'modifystart' ? 'grabbing' : 'pointer';
-        console.log(point.getFlatCoordinates())
+        const coords = transform([this.marker.getFlatCoordinates()[0],this.marker.getFlatCoordinates()[1]], 'EPSG:3857', 'EPSG:4326');
+        //TODO emits are bouncing off of each other
+        this.$emit("markerMove", coords);
       });
 
       const overlaySource = modify.getOverlay().getSource();
-      overlaySource.on(['addfeature', 'removefeature'], function (evt){
+      overlaySource.on(['addfeature', 'removefeature'],  (evt) => {
         target.style.cursor = evt.type === 'addfeature' ? 'pointer' : '';
       });
 
-      map.addInteraction(modify);
-
+      this.map.addInteraction(modify);
+      //this.setMarkerLoc(7438033.7038894165, 9140236.950249571);
+      //this.setMarkerLoc(57.9120, 21.2121);
     },
 
-    setCenter(long, lat) {
-      return fromLonLat([long, lat])
+
+
+
+    setMarkerLoc(lon, lat){
+      this.marker.setCoordinates(fromLonLat([lon, lat]))
     }
+
+
   },
 
   mounted() {
-    this.map()
+    this.initMap();
   },
-
-  watch: {
-    point(){
-      console.log(this.point)
-    }
-  }
 
 
 }
