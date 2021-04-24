@@ -23,15 +23,17 @@ export default {
   name: "map-component",
 
   data() {
-    return{
+    return {
       map: null,
       marker: null,
+      emit: true,
     }
   },
 
   methods: {
 
-    handleNewLoc(coords){
+    handleNewLoc(coords) {
+      this.emit = false;
       this.setMarkerLoc(coords[0], coords[1]);
     },
 
@@ -39,7 +41,7 @@ export default {
 
       const startLon = 26.7388686;
       const startLan = 58.365231;
-      this.marker = new Point (fromLonLat([startLon, startLan]));
+      this.marker = new Point(fromLonLat([startLon, startLan]));
 
 
       const tileLayer = new TileLayer({
@@ -79,8 +81,8 @@ export default {
         // the map will be created using the 'mapRoot' ref
         target: this.$refs['mapRoot'],
         layers: [
-            tileLayer,
-            vectorLayer
+          tileLayer,
+          vectorLayer
         ],
 
         // the map view will initially show the whole world
@@ -99,15 +101,17 @@ export default {
       });
 
 
-      modify.on(['modifystart', 'modifyend'],  (evt) => {
+      modify.on(['modifystart', 'modifyend'], (evt) => {
         target.style.cursor = evt.type === 'modifystart' ? 'grabbing' : 'pointer';
-        const coords = transform([this.marker.getFlatCoordinates()[0],this.marker.getFlatCoordinates()[1]], 'EPSG:3857', 'EPSG:4326');
-        //TODO emits are bouncing off of each other
-        this.$emit("markerMove", coords);
+        const coords = transform([this.marker.getFlatCoordinates()[0], this.marker.getFlatCoordinates()[1]], 'EPSG:3857', 'EPSG:4326');
+        if (this.emit)
+          this.$emit("markerMove", coords);
+        this.emit = true;
+
       });
 
       const overlaySource = modify.getOverlay().getSource();
-      overlaySource.on(['addfeature', 'removefeature'],  (evt) => {
+      overlaySource.on(['addfeature', 'removefeature'], (evt) => {
         target.style.cursor = evt.type === 'addfeature' ? 'pointer' : '';
       });
 
@@ -117,9 +121,7 @@ export default {
     },
 
 
-
-
-    setMarkerLoc(lon, lat){
+    setMarkerLoc(lon, lat) {
       this.marker.setCoordinates(fromLonLat([lon, lat]))
     }
 

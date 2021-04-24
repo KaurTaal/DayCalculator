@@ -67,10 +67,9 @@
     <div class="calc-item-container">
       <div class="calc-item-size-container" style="padding-top: 0.5em">
         <v-menu
-            ref="menu"
             v-model="menu"
             :close-on-content-click="false"
-            :return-value.sync="date"
+            :nudge-right="40"
             transition="scale-transition"
             offset-y
             min-width="auto"
@@ -83,31 +82,14 @@
                 readonly
                 v-bind="attrs"
                 v-on="on"
-                color="green"
                 :rules="[rules.required]"
+                color="green"
             ></v-text-field>
           </template>
           <v-date-picker
               v-model="date"
-              no-title
-              scrollable
-          >
-            <v-spacer></v-spacer>
-            <v-btn
-                text
-                color="error"
-                @click="menu = false"
-            >
-              Cancel
-            </v-btn>
-            <v-btn
-                text
-                color="primary"
-                @click="$refs.menu.save(date)"
-            >
-              OK
-            </v-btn>
-          </v-date-picker>
+              @input="menu = false"
+          ></v-date-picker>
         </v-menu>
       </div>
 
@@ -136,10 +118,11 @@
 
 const validateInput = (input) => {
   input = input.trim();
-  //Algab 1-9 ja järgneb 0-9 0x või mitu korda
   const rule1 = /^[1-9][0-9]*.[0-9]+$/
   const rule2 = /^[1-9][0-9]*$/
-  const rule3 = /^-[1-9][0-9]*.[0-9]+$/
+  const rule3 = /^-?[1-9]*.[0-9]+$/
+
+  //TODO Lubab hetkel 2x miinust pnna kuskile.
   return rule1.test(input) || rule2.test(input) || rule3.test(input);
 }
 
@@ -155,7 +138,7 @@ export default {
     sunrise: null,
     sunset: null,
     lenOfDay: null,
-    info: null,
+    emit: true,
 
     rules: {
       required: value => !!value || 'Required',
@@ -166,6 +149,7 @@ export default {
   methods: {
 
     handleMarkerMove(coords) {
+      this.emit = false;
       this.inputLong = coords[0];
       this.inputLang = coords[1];
     },
@@ -189,34 +173,32 @@ export default {
 
 
   },
-  //`https://api.sunrise-sunset.org/json?lat=${this.inputLang}&lng=${this.inputLong}&date=${this.date}`
-
-  /*
-  mounted() {
-    axios
-        .get(`https://api.sunrise-sunset.org/json?lat=${this.inputLang}&lng=${this.inputLong}&date=${this.date}`)
-        .then(response => (this.info = response));
-  },
-   */
 
   watch: {
     inputLang() {
       if (validateInput(this.inputLang.toString()) && validateInput(this.inputLong.toString()) && this.date !== null) {
-        this.$emit("lonAndLanChange", [this.inputLong, this.inputLang]);
+        if (this.emit)
+          this.$emit("lonAndLanChange", [this.inputLong, this.inputLang]);
         this.showData();
+        this.emit = true;
       }
     },
 
     inputLong() {
       if (validateInput(this.inputLang.toString()) && validateInput(this.inputLong.toString()) && this.date !== null) {
-        this.$emit("lonAndLanChange", [this.inputLong, this.inputLang]);
+        if (this.emit)
+          this.$emit("lonAndLanChange", [this.inputLong, this.inputLang]);
         this.showData();
+        this.emit = true;
       }
     },
 
     date() {
       if (validateInput(this.inputLang.toString()) && validateInput(this.inputLong.toString()) && this.date !== null) {
+        if (this.emit)
+          this.$emit("lonAndLanChange", [this.inputLong, this.inputLang]);
         this.showData();
+        this.emit = true;
       }
     }
   },

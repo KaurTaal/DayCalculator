@@ -7,6 +7,8 @@
       <div>theme</div>
       <div>info</div>
       <div>Git repo</div>
+      <!-- time format... -->
+      <div>Settings</div>
     </div>
 
   </div>

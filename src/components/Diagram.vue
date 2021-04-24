@@ -10,7 +10,7 @@
               ref="menu"
               v-model="menu"
               :close-on-content-click="false"
-              :return-value.sync="startDate"
+              :nudge-right="40"
               transition="scale-transition"
               offset-y
               min-width="auto"
@@ -29,24 +29,9 @@
             <v-date-picker
                 v-model="startDate"
                 no-title
+                @input="menu = false"
                 scrollable
-            >
-              <v-spacer></v-spacer>
-              <v-btn
-                  text
-                  color="error"
-                  @click="menu = false"
-              >
-                Cancel
-              </v-btn>
-              <v-btn
-                  text
-                  color="primary"
-                  @click="$refs.menu.save(startDate)"
-              >
-                OK
-              </v-btn>
-            </v-date-picker>
+            ></v-date-picker>
           </v-menu>
         </div>
         <div>~</div>
@@ -55,7 +40,7 @@
               ref="menu2"
               v-model="menu2"
               :close-on-content-click="false"
-              :return-value.sync="endDate"
+              :nudge-right="40"
               transition="scale-transition"
               offset-y
               min-width="auto"
@@ -74,24 +59,9 @@
             <v-date-picker
                 v-model="endDate"
                 no-title
+                @input="menu2 = false"
                 scrollable
-            >
-              <v-spacer></v-spacer>
-              <v-btn
-                  text
-                  color="error"
-                  @click="menu2 = false"
-              >
-                Cancel
-              </v-btn>
-              <v-btn
-                  text
-                  color="primary"
-                  @click="$refs.menu2.save(endDate)"
-              >
-                OK
-              </v-btn>
-            </v-date-picker>
+            ></v-date-picker>
           </v-menu>
         </div>
 
@@ -101,8 +71,6 @@
         Excel export?
       </div>
     </div>
-
-    <button @click="dummyData" style="background-color: lightblue">Results</button>
 
     <v-chart
         autoresize
@@ -178,7 +146,6 @@ export default {
         vals.push(Math.floor(Math.random() * 100) + 5)
       }
 
-      //console.log(dates)
       this.option.series[0].data = vals;
       this.option.xAxis.data = dates;
       this.option = JSON.parse(JSON.stringify(this.option))
@@ -209,7 +176,6 @@ export default {
         return new Date(year, month - 1, day);
       }
     }
-
   },
 
   watch: {
