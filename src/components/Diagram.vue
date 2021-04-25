@@ -82,11 +82,13 @@
 <script>
 import ECharts from "vue-echarts";
 import "echarts";
+import moment from 'moment-timezone';
 
 export default {
   name: "diagram",
 
   components: {"v-chart": ECharts},
+  props: ["long", "lang"],
 
   data() {
     return {
@@ -96,7 +98,10 @@ export default {
       modal: false,
       menu2: false,
       modal2: false,
-
+      sunrise: null,
+      sunset: null,
+      lenOfDay: null,
+      dayData: {},
 
       option: {
         grid: {
@@ -107,7 +112,12 @@ export default {
         },
         tooltip: {
           trigger: 'axis',
-          formatter: 'Tere {b0} TODO lisa sunrise ja sunset ja day length'
+          formatter: (data) => {
+            console.log(data);
+            return Math.round(data[0].data / 60 / 60 * 100) / 100 + ' H' + "<br> Sunrise: " +
+                this.dayData[data[0].axisValue].sunrise + "<br> Sunset: " +
+                this.dayData[data[0].axisValue].sunset;
+          },
         },
         dataZoom: {
           type: 'slider',
@@ -116,12 +126,19 @@ export default {
         xAxis: {
           data: [],
         },
-        yAxis: {},
+        yAxis: {
+          axisLabel: {
+            formatter: function (time) {
+              return Math.round(time / 60 / 60 * 100) / 100 + ' H';
+            },
+          }
+        },
         series: [
           {
             name: "Length of day",
             type: "line",
             data: [],
+            customData: "terekest",
             smooth: true,
           }
         ],
@@ -137,18 +154,40 @@ export default {
   },
 
   methods: {
-    dummyData() {
+    showData() {
       let dates = [];
-      const vals = [];
+      let values = [];
 
       dates = this.getDatePeriod(this.startDate, this.endDate);
-      for (let i = 0; i < 30; i++) {
-        vals.push(Math.floor(Math.random() * 100) + 5)
-      }
+      values = this.getPeriodData(dates);
 
-      this.option.series[0].data = vals;
+      this.option.series[0].data = values;
       this.option.xAxis.data = dates;
       this.option = JSON.parse(JSON.stringify(this.option))
+    },
+
+    getPeriodData(dates) {
+      const SunCalc = require('suncalc');
+      let values = [];
+
+      for (let i = 0; i < dates.length; i++) {
+        let date = this.reverseDate(dates[i]);
+        date = this.convertDate(date);
+
+        let sunrise = SunCalc.getTimes(date, this.lang, this.long).sunrise;
+        let sunset = SunCalc.getTimes(date, this.lang, this.long).sunset;
+
+        this.sunrise = moment(sunrise).tz('Europe/Helsinki').format("HH:mm")
+        this.sunset = moment(sunset).tz('Europe/Helsinki').format("HH:mm")
+
+        sunrise = moment(sunrise).unix();
+        sunset = moment(sunset).unix();
+
+        let difference = sunset - sunrise;
+        this.dayData[dates[i]] = {sunrise: this.sunrise, sunset: this.sunset};
+        values.push(difference);
+      }
+      return values;
     },
 
 
@@ -175,39 +214,43 @@ export default {
         const day = help[2];
         return new Date(year, month - 1, day);
       }
-    }
+    },
+
+    reverseDate(date) {
+      const dateHelp = date.split(".");
+      const year = dateHelp[2];
+      const month = dateHelp[1];
+      const day = dateHelp[0];
+      return year + "-" + month + "-" + day;
+    },
+
   },
 
   watch: {
-    startDate(){
-      if (this.startDate && this.endDate){
-        if (this.convertDate(this.startDate) <= this.convertDate(this.endDate))
-          this.dummyData();
-        else {
-          const help = this.startDate;
-          this.startDate = this.endDate;
-          this.endDate = help;
-          this.dummyData();
-        }
+    startDate() {
+      if (this.startDate && this.endDate) {
+        const help = this.startDate;
+        this.startDate = this.endDate;
+        this.endDate = help;
+        this.showData();
       }
-    },
-    endDate(){
-      if (this.startDate && this.endDate){
-        if (this.convertDate(this.startDate) <= this.convertDate(this.endDate))
-          this.dummyData();
-        else {
-          const help = this.endDate;
-          this.endDate = this.startDate;
-          this.endDate = help;
-          this.dummyData();
-        }
+    }
+    ,
+    endDate() {
+      if (this.startDate && this.endDate) {
+        const help = this.endDate;
+        this.endDate = this.startDate;
+        this.endDate = help;
+        this.showData();
       }
-    },
+    }
+    ,
 
   }
 
 
-};
+}
+;
 </script>
 
 <style scoped>

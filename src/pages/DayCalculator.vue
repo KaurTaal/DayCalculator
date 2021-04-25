@@ -1,15 +1,23 @@
 <template>
   <div class="day-calculator-container">
     <div class="calc-and-map">
-      <Calculator ref="calculator" @lonAndLanChange="handleLonAndLanChange"
+      <Calculator
+          :long="long"
+          :lang="lang"
+          ref="calculator" @lonAndLanChange="handleLonAndLanChange"
       ></Calculator>
-      <Map ref="map"
-           @markerMove="handleMarkerMove"
+      <Map ref="map" @markerMove="handleMarkerMove"
+           :long="long"
+           :lang="lang"
       ></Map>
     </div>
 
     <div class="diagram">
-      <Diagram></Diagram>
+      <Diagram
+          ref="diagram"
+          :long="long"
+          :lang="lang"
+      ></Diagram>
     </div>
 
   </div>
@@ -26,15 +34,24 @@ export default {
   name: "day-calculator",
   components: {Map, Diagram, Calculator},
 
+  data() {
+    return {
+      lang: -10,
+      long: 10
+    }
+  },
 
   methods: {
     handleMarkerMove(coords) {
-      this.$refs.calculator.handleMarkerMove(coords);
+      this.long = coords[0];
+      this.lang = coords[1];
     },
 
     handleLonAndLanChange(coords) {
-      this.$refs.map.handleNewLoc(coords);
-    }
+      this.long = coords[0];
+      this.lang = coords[1];
+    },
+
 
   }
 }

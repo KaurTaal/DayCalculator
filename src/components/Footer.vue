@@ -1,8 +1,6 @@
 <template>
   <div class="footer">
     Olen Footer ja ei tea, mida öelda
-  <br>
-    Credit sunrise.org
   </div>
   
 </template>
