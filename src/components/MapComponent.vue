@@ -3,7 +3,6 @@
 </template>
 
 <script>
-
 import 'ol/ol.css';
 import View from 'ol/View'
 import Map from 'ol/Map'

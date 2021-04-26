@@ -12,7 +12,7 @@
             dense
             hide-details
             color="green"
-            :rules="[rules.required, rules.floatNumber]"
+            :rules="[rules.required, rules.floatNumberLon]"
         ></v-text-field>
       </div>
     </div>
@@ -42,7 +42,7 @@
             dense
             hide-details
             color="green"
-            :rules="[rules.required, rules.floatNumber]"
+            :rules="[rules.required, rules.floatNumberLat]"
             hint="Example: 50.49094"
         ></v-text-field>
       </div>
@@ -118,16 +118,17 @@
 import moment from 'moment-timezone';
 
 const validateInput = (input) => {
-  input = input.trim();
-  const rule1 = /^[1-9][0-9]*.[0-9]+$/
-  const rule2 = /^[1-9][0-9]*$/
-  const rule3 = /^-?[1-9]*.[0-9]+$/
 
-  //TODO Lubab hetkel 2x miinust pnna kuskile.
-  return rule1.test(input) || rule2.test(input) || rule3.test(input);
+  const rule1 = /^-?[1-9][0-9]*\.[0-9]+$/
+  const rule2 = /^-?[1-9][0-9]*$/
+  const rule3 = /^-?0\.[0-9]+/
+  const rule4 = /^0$/
+
+  return rule1.test(input) || rule2.test(input) || rule3.test(input) || rule4.test(input);
 }
 
 export default {
+
   name: "calculator",
   props: ["long", "lang"],
 
@@ -144,7 +145,8 @@ export default {
 
     rules: {
       required: value => !!value || 'Required',
-      floatNumber: value => validateInput(value.toString()) || 'Wrong input'
+      floatNumberLat: value => validateInput(value.toString()) || 'Wrong input',
+      floatNumberLon: value => validateInput(value.toString()) || 'Wrong input'
     }
   }),
 
@@ -173,7 +175,7 @@ export default {
         sunset = moment(sunset).unix();
 
 
-        let difference = Math.round((sunset-sunrise) / 60 / 60 * 100) / 100;
+        let difference = Math.round((sunset - sunrise) / 60 / 60 * 100) / 100;
         this.lenOfDay = `${difference} H`
 
       }
