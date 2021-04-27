@@ -12,7 +12,7 @@
             dense
             hide-details
             color="green"
-            :rules="[rules.required, rules.floatNumber]"
+            :rules="[rules.required, rules.floatNumberLon]"
         ></v-text-field>
       </div>
     </div>
@@ -36,13 +36,13 @@
       <div class="calc-item-size-container">
         <v-text-field
             v-model="inputLang"
-            label="Langitude"
+            label="Latitude"
             rounded
             outlined
             dense
             hide-details
             color="green"
-            :rules="[rules.required, rules.floatNumber]"
+            :rules="[rules.required, rules.floatNumberLat]"
             hint="Example: 50.49094"
         ></v-text-field>
       </div>
@@ -99,7 +99,7 @@
       <div class="calc-item-size-container">
         <v-text-field
             v-model="lenOfDay"
-            label="Day of length"
+            label="Length Of Day"
             rounded
             outlined
             dense
@@ -115,19 +115,22 @@
 
 
 <script>
+import moment from 'moment-timezone';
 
 const validateInput = (input) => {
-  input = input.trim();
-  const rule1 = /^[1-9][0-9]*.[0-9]+$/
-  const rule2 = /^[1-9][0-9]*$/
-  const rule3 = /^-?[1-9]*.[0-9]+$/
 
-  //TODO Lubab hetkel 2x miinust pnna kuskile.
-  return rule1.test(input) || rule2.test(input) || rule3.test(input);
+  const rule1 = /^-?[1-9][0-9]*\.[0-9]+$/
+  const rule2 = /^-?[1-9][0-9]*$/
+  const rule3 = /^-?0\.[0-9]+/
+  const rule4 = /^0$/
+
+  return rule1.test(input) || rule2.test(input) || rule3.test(input) || rule4.test(input);
 }
 
 export default {
+
   name: "calculator",
+  props: ["long", "lang"],
 
   data: () => ({
     date: null,
@@ -142,7 +145,8 @@ export default {
 
     rules: {
       required: value => !!value || 'Required',
-      floatNumber: value => validateInput(value.toString()) || 'Wrong input'
+      floatNumberLat: value => validateInput(value.toString()) || 'Wrong input',
+      floatNumberLon: value => validateInput(value.toString()) || 'Wrong input'
     }
   }),
 
@@ -155,48 +159,67 @@ export default {
     },
 
 
-    async showData() {
-      const axios = require('axios');
+    showData() {
+      if (this.date) {
+        const SunCalc = require('suncalc');
+        const date = this.convertDate(this.date);
+        let sunrise = SunCalc.getTimes(date, this.inputLang, this.inputLong).sunrise;
+        let sunset = SunCalc.getTimes(date, this.inputLang, this.inputLong).sunset;
 
-      const response = await axios.get('https://api.sunrise-sunset.org/json', {
-        params: {
-          lat: this.inputLang,
-          lng: this.inputLong,
-          date: this.date
-        }
-      });
 
-      this.sunrise = response.data.results.sunrise;
-      this.sunset = response.data.results.sunset;
-      this.lenOfDay = response.data.results.day_length;
-    }
+        this.sunrise = moment(sunrise).tz('Europe/Helsinki').format("HH:mm")
+        this.sunset = moment(sunset).tz('Europe/Helsinki').format("HH:mm")
 
+
+        sunrise = moment(sunrise).unix();
+        sunset = moment(sunset).unix();
+
+
+        let difference = Math.round((sunset - sunrise) / 60 / 60 * 100) / 100;
+        this.lenOfDay = `${difference} H`
+
+      }
+    },
+
+
+    convertDate(date) {
+      if (date) {
+        const help = date.split("-");
+        const year = help[0];
+        const month = help[1];
+        const day = help[2];
+        return new Date(year, month - 1, day);
+      }
+    },
 
   },
 
   watch: {
+    long() {
+      this.inputLong = this.long;
+    },
+    lang() {
+      this.inputLang = this.lang;
+    },
     inputLang() {
-      if (validateInput(this.inputLang.toString()) && validateInput(this.inputLong.toString()) && this.date !== null) {
-        if (this.emit)
-          this.$emit("lonAndLanChange", [this.inputLong, this.inputLang]);
+      if (validateInput(this.inputLang.toString()) && validateInput(this.inputLong.toString())) {
+        this.$emit("lonAndLanChange", [this.inputLong, this.inputLang]);
         this.showData();
         this.emit = true;
       }
     },
 
     inputLong() {
-      if (validateInput(this.inputLang.toString()) && validateInput(this.inputLong.toString()) && this.date !== null) {
-        if (this.emit)
-          this.$emit("lonAndLanChange", [this.inputLong, this.inputLang]);
+      if (validateInput(this.inputLang.toString()) && validateInput(this.inputLong.toString())) {
+        this.$emit("lonAndLanChange", [this.inputLong, this.inputLang]);
         this.showData();
         this.emit = true;
       }
     },
 
     date() {
-      if (validateInput(this.inputLang.toString()) && validateInput(this.inputLong.toString()) && this.date !== null) {
-        if (this.emit)
-          this.$emit("lonAndLanChange", [this.inputLong, this.inputLang]);
+      if (validateInput(this.inputLang.toString()) && validateInput(this.inputLong.toString())) {
+        this.$emit("lonAndLanChange", [this.inputLong, this.inputLang]);
         this.showData();
         this.emit = true;
       }

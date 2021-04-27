@@ -22,14 +22,12 @@ import 'vuetify/dist/vuetify.min.css';
 import 'element-ui/lib/theme-chalk/index.css'
 import VueLayers from 'vuelayers';
 import 'vuelayers/lib/style.css';
-import axios from 'axios';
-import VueAxios from 'vue-axios';
 
 
 
 Vue.use(Vuetify);
 Vue.use(VueLayers);
-Vue.use(VueAxios, axios)
+
 
 export default {
   name: 'App',

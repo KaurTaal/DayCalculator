@@ -3,7 +3,6 @@
 </template>
 
 <script>
-
 import 'ol/ol.css';
 import View from 'ol/View'
 import Map from 'ol/Map'
@@ -21,7 +20,7 @@ import {transform} from 'ol/proj';
 export default {
 
   name: "map-component",
-
+  props:["long", "lang"],
   data() {
     return {
       map: null,
@@ -32,15 +31,15 @@ export default {
 
   methods: {
 
-    handleNewLoc(coords) {
+    handleNewLoc(long, lang) {
       this.emit = false;
-      this.setMarkerLoc(coords[0], coords[1]);
+      this.setMarkerLoc(long, lang);
     },
 
     initMap() {
 
-      const startLon = 26.7388686;
-      const startLan = 58.365231;
+      const startLon = this.long;
+      const startLan = this.lang;
       this.marker = new Point(fromLonLat([startLon, startLan]));
 
 
@@ -116,8 +115,6 @@ export default {
       });
 
       this.map.addInteraction(modify);
-      //this.setMarkerLoc(7438033.7038894165, 9140236.950249571);
-      //this.setMarkerLoc(57.9120, 21.2121);
     },
 
 
@@ -130,7 +127,20 @@ export default {
 
   mounted() {
     this.initMap();
+    const coords = transform([this.marker.getFlatCoordinates()[0], this.marker.getFlatCoordinates()[1]], 'EPSG:3857', 'EPSG:4326');
+    if (this.emit)
+      this.$emit("markerMove", coords);
+    this.emit = true;
   },
+
+  watch: {
+    long(){
+      this.handleNewLoc(this.long, this.lang);
+    },
+    lang(){
+      this.handleNewLoc(this.long, this.lang);
+    }
+  }
 
 
 }
