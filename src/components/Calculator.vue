@@ -205,6 +205,7 @@ export default {
       if (validateInput(this.inputLang.toString()) && validateInput(this.inputLong.toString())) {
         this.$emit("lonAndLanChange", [this.inputLong, this.inputLang]);
         this.showData();
+        this.emit = true;
       }
     },
 
@@ -212,6 +213,7 @@ export default {
       if (validateInput(this.inputLang.toString()) && validateInput(this.inputLong.toString())) {
         this.$emit("lonAndLanChange", [this.inputLong, this.inputLang]);
         this.showData();
+        this.emit = true;
       }
     },
 
@@ -219,6 +221,7 @@ export default {
       if (validateInput(this.inputLang.toString()) && validateInput(this.inputLong.toString())) {
         this.$emit("lonAndLanChange", [this.inputLong, this.inputLang]);
         this.showData();
+        this.emit = true;
       }
     }
   },
