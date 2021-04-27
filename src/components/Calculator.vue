@@ -11,7 +11,7 @@
             outlined
             dense
             hide-details
-            color="green"
+            color="light-green accent-3"
             :rules="[rules.required, rules.floatNumberLon]"
         ></v-text-field>
       </div>
@@ -26,7 +26,7 @@
             outlined
             dense
             hide-details
-            color="green"
+            color="light-green accent-3"
             readonly
         ></v-text-field>
       </div>
@@ -41,7 +41,7 @@
             outlined
             dense
             hide-details
-            color="green"
+            color="light-green accent-3"
             :rules="[rules.required, rules.floatNumberLat]"
             hint="Example: 50.49094"
         ></v-text-field>
@@ -58,7 +58,7 @@
             outlined
             dense
             hide-details
-            color="green"
+            color="light-green accent-3"
             readonly
         ></v-text-field>
       </div>
@@ -83,7 +83,7 @@
                 v-bind="attrs"
                 v-on="on"
                 :rules="[rules.required]"
-                color="green"
+                color="light-green accent-3"
             ></v-text-field>
           </template>
           <v-date-picker
@@ -104,7 +104,7 @@
             outlined
             dense
             hide-details
-            color="green"
+            color="light-green accent-3"
             readonly
         ></v-text-field>
       </div>
@@ -196,10 +196,10 @@ export default {
 
   watch: {
     long() {
-      this.inputLong = this.long;
+      this.inputLong = Math.round(this.long * 10000) / 10000;
     },
     lang() {
-      this.inputLang = this.lang;
+      this.inputLang = Math.round(this.lang* 10000) / 10000;
     },
     inputLang() {
       if (validateInput(this.inputLang.toString()) && validateInput(this.inputLong.toString())) {

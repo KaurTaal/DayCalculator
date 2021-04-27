@@ -15,12 +15,13 @@ import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
 import VectorSource from 'ol/source/Vector';
 import {transform} from 'ol/proj';
+import {XYZ} from 'ol/source';
 
 
 export default {
 
   name: "map-component",
-  props:["long", "lang"],
+  props: ["long", "lang"],
   data() {
     return {
       map: null,
@@ -75,13 +76,23 @@ export default {
         source: vectorSource,
       });
 
+      const satellite = new TileLayer({
+        source: new XYZ({
+          attributions: ['Powered by Esri',
+            'Source: Esri, DigitalGlobe, GeoEye, Earthstar Geographics, CNES/Airbus DS, USDA, USGS, AeroGRID, IGN, and the GIS User Community'],
+          attributionsCollapsible: false,
+          url: 'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+        })
+      })
+
 
       this.map = new Map({
         // the map will be created using the 'mapRoot' ref
         target: this.$refs['mapRoot'],
         layers: [
           tileLayer,
-          vectorLayer
+          satellite,
+          vectorLayer,
         ],
 
         // the map view will initially show the whole world
@@ -131,13 +142,14 @@ export default {
     if (this.emit)
       this.$emit("markerMove", coords);
     this.emit = true;
+
   },
 
   watch: {
-    long(){
+    long() {
       this.handleNewLoc(this.long, this.lang);
     },
-    lang(){
+    lang() {
       this.handleNewLoc(this.long, this.lang);
     }
   }
@@ -149,6 +161,7 @@ export default {
 <style scoped>
 .map {
   width: 100%;
-  height: 100%
+  height: 100%;
 }
+
 </style>

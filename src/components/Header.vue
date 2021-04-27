@@ -1,18 +1,36 @@
 <template>
   <div class="header">
-    <div>Day calculator</div>
+    <v-app-bar>
 
-    <div style="display: flex; gap: 1em;">
-      <div>language</div>
-      <div>theme</div>
-      <div>info</div>
-      <div>Git repo</div>
-      <!-- time format... -->
-      <div>Settings</div>
-    </div>
+      <v-toolbar-title>Day Calculator</v-toolbar-title>
+
+      <v-spacer></v-spacer>
+
+      <v-btn><i class="fas fa-globe-europe"></i></v-btn>
+
+      <v-btn><i class="far fa-moon"></i></v-btn>
+
+      <v-btn><i class="fab fa-github"></i></v-btn>
+
+      <v-btn><i class="fas fa-info"></i></v-btn>
+
+
+      <!--
+      <div style="display: flex; gap: 1em;">
+        <div>language</div>
+        <div>theme</div>
+        <div>info</div>
+        <div>Git repo</div>
+        <div>Settings</div>
+
+      </div>
+      -->
+
+    </v-app-bar>
 
   </div>
-  
+
+
 </template>
 
 <script>

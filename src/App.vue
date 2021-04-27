@@ -22,6 +22,7 @@ import 'vuetify/dist/vuetify.min.css';
 import 'element-ui/lib/theme-chalk/index.css'
 import VueLayers from 'vuelayers';
 import 'vuelayers/lib/style.css';
+import '@fortawesome/fontawesome-free/css/all.css'
 
 
 
@@ -32,6 +33,9 @@ Vue.use(VueLayers);
 export default {
   name: 'App',
   components: {DayCalculator, Footer, Header},
+  icons: {
+    iconFont: 'fa'
+  }
 }
 </script>
 
@@ -68,7 +72,6 @@ body {
   width: 100%;
   height: 100%;
   position: relative;
-  background-color: grey;
   margin: 0;
 }
 
