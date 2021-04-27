@@ -81,8 +81,6 @@ export default {
 
 
 .day-calculator-container {
-  background: url("../assets/light.jpg");
-  background-size: 100% 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;

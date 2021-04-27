@@ -18,6 +18,7 @@ import {transform} from 'ol/proj';
 import {XYZ} from 'ol/source';
 
 
+
 export default {
 
   name: "map-component",
@@ -76,6 +77,7 @@ export default {
         source: vectorSource,
       });
 
+
       const satellite = new TileLayer({
         source: new XYZ({
           attributions: ['Powered by Esri',
@@ -84,6 +86,17 @@ export default {
           url: 'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
         })
       })
+
+      /*
+      const op = new TileLayer({
+        source: new XYZ({
+          attributions: ['Powered by Esri',
+            'Source: Esri, DigitalGlobe, GeoEye, Earthstar Geographics, CNES/Airbus DS, USDA, USGS, AeroGRID, IGN, and the GIS User Community'],
+          attributionsCollapsible: true,
+          url: 'http://{a-c}.tile.stamen.com/toner/{z}/{x}/{y}.png'
+        })
+      })
+       */
 
 
       this.map = new Map({
@@ -131,7 +144,8 @@ export default {
 
     setMarkerLoc(lon, lat) {
       this.marker.setCoordinates(fromLonLat([lon, lat]))
-    }
+    },
+
 
 
   },
@@ -162,6 +176,11 @@ export default {
 .map {
   width: 100%;
   height: 100%;
+  padding-top: 2em;
+}
+
+::v-deep canvas {
+  border-radius: 0.5em;
 }
 
 </style>

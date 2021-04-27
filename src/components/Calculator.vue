@@ -26,7 +26,7 @@
             outlined
             dense
             hide-details
-            color="light-green accent-3"
+            color="black"
             readonly
         ></v-text-field>
       </div>
@@ -58,8 +58,8 @@
             outlined
             dense
             hide-details
-            color="light-green accent-3"
             readonly
+            color="black"
         ></v-text-field>
       </div>
     </div>
@@ -104,8 +104,8 @@
             outlined
             dense
             hide-details
-            color="light-green accent-3"
             readonly
+            color="black"
         ></v-text-field>
       </div>
     </div>
@@ -126,6 +126,8 @@ const validateInput = (input) => {
 
   return rule1.test(input) || rule2.test(input) || rule3.test(input) || rule4.test(input);
 }
+
+
 
 export default {
 
@@ -249,6 +251,7 @@ export default {
   width: 10em;
   height: 3em;
 }
+
 
 
 </style>

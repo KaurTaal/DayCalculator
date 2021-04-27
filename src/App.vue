@@ -2,9 +2,9 @@
   <v-app>
     <div data-app class="main-container">
 
-      <Header class="content-padding"></Header>
+      <Header></Header>
       <DayCalculator class="content-padding"></DayCalculator>
-      <Footer class="content-padding"></Footer>
+      <Footer></Footer>
 
     </div>
   </v-app>
@@ -23,6 +23,9 @@ import 'element-ui/lib/theme-chalk/index.css'
 import VueLayers from 'vuelayers';
 import 'vuelayers/lib/style.css';
 import '@fortawesome/fontawesome-free/css/all.css'
+import '@/assets/light.scss'
+import '@/assets/dark.scss'
+
 
 
 
@@ -73,12 +76,23 @@ body {
   height: 100%;
   position: relative;
   margin: 0;
+  -ms-overflow-style: none;
+}
+
+::-webkit-scrollbar{
+  display: none;
 }
 
 .v-text-field{
   margin-top: unset !important;
   padding-top: unset !important;
 }
+
+.v-text-field--outlined fieldset{
+  border-color: black;
+}
+
+
 
 
 </style>
