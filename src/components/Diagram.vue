@@ -23,7 +23,7 @@
                   readonly
                   v-bind="attrs"
                   v-on="on"
-                  color="green"
+                  color="light-green accent-3"
               ></v-text-field>
             </template>
             <v-date-picker
@@ -53,7 +53,7 @@
                   readonly
                   v-bind="attrs"
                   v-on="on"
-                  color="green"
+                  color="light-green accent-3"
               ></v-text-field>
             </template>
             <v-date-picker
@@ -108,12 +108,11 @@ export default {
           top: 10,
           right: 10,
           left: 50,
-          bottom: 100
+          bottom: 100,
         },
         tooltip: {
           trigger: 'axis',
           formatter: (data) => {
-            console.log(data);
             return Math.round(data[0].data / 60 / 60 * 100) / 100 + ' H' + "<br> Sunrise: " +
                 this.dayData[data[0].axisValue].sunrise + "<br> Sunset: " +
                 this.dayData[data[0].axisValue].sunset;
@@ -122,15 +121,30 @@ export default {
         dataZoom: {
           type: 'slider',
           filterMode: "weakFilter",
+          backgroundColor: 'rgba(47,69,84)',
+          handleStyle: {
+            color: 'black',
+          },
+          textStyle: {
+            color: 'white',
+          }
         },
         xAxis: {
           data: [],
+          axisLabel: {
+            textStyle: {
+              color: 'black'
+            }
+          }
         },
         yAxis: {
           axisLabel: {
             formatter: function (time) {
               return Math.round(time / 60 / 60 * 100) / 100 + ' H';
             },
+            textStyle: {
+              color: 'black'
+            }
           }
         },
         series: [
@@ -158,6 +172,12 @@ export default {
       let dates = [];
       let values = [];
 
+      if (this.convertDate(this.startDate).getTime() > this.convertDate(this.endDate).getTime()){
+        const help = this.endDate;
+        this.endDate = this.startDate;
+        this.startDate = help;
+      }
+
       dates = this.getDatePeriod(this.startDate, this.endDate);
       values = this.getPeriodData(dates);
 
@@ -177,6 +197,15 @@ export default {
         let sunrise = SunCalc.getTimes(date, this.lang, this.long).sunrise;
         let sunset = SunCalc.getTimes(date, this.lang, this.long).sunset;
 
+        if (isNaN(sunrise)){
+          this.dayData[dates[i]] = {sunrise: "-", sunset: "-"};
+          if (values[i-1] > 20 * 60 * 60)
+            values.push(24 * 60 * 60);
+          else
+            values.push(0);
+          continue;
+        }
+
         this.sunrise = moment(sunrise).tz('Europe/Helsinki').format("HH:mm")
         this.sunset = moment(sunset).tz('Europe/Helsinki').format("HH:mm")
 
@@ -185,6 +214,7 @@ export default {
 
         let difference = sunset - sunrise;
         this.dayData[dates[i]] = {sunrise: this.sunrise, sunset: this.sunset};
+
         values.push(difference);
       }
       return values;
@@ -228,24 +258,24 @@ export default {
 
   watch: {
     startDate() {
-      if (this.startDate && this.endDate) {
-        const help = this.startDate;
-        this.startDate = this.endDate;
-        this.endDate = help;
+      if (this.startDate && this.endDate)
         this.showData();
-      }
-    }
-    ,
-    endDate() {
-      if (this.startDate && this.endDate) {
-        const help = this.endDate;
-        this.endDate = this.startDate;
-        this.endDate = help;
-        this.showData();
-      }
-    }
-    ,
+    },
 
+    endDate() {
+      if (this.startDate && this.endDate)
+        this.showData();
+    },
+
+    long(){
+      if (this.startDate && this.endDate)
+        this.showData();
+    },
+
+    lang(){
+      if (this.startDate && this.endDate)
+        this.showData();
+    }
   }
 
 
