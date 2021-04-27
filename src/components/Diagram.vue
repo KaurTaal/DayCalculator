@@ -24,6 +24,7 @@
                   v-bind="attrs"
                   v-on="on"
                   color="light-green accent-3"
+                  style="width: 80%"
               ></v-text-field>
             </template>
             <v-date-picker
@@ -34,7 +35,6 @@
             ></v-date-picker>
           </v-menu>
         </div>
-        <div>~</div>
         <div class="end-date">
           <v-menu
               ref="menu2"
@@ -54,6 +54,7 @@
                   v-bind="attrs"
                   v-on="on"
                   color="light-green accent-3"
+                  style="width: 80%"
               ></v-text-field>
             </template>
             <v-date-picker
@@ -67,9 +68,6 @@
 
       </div>
 
-      <div>
-        Excel export?
-      </div>
     </div>
 
     <v-chart
@@ -121,18 +119,36 @@ export default {
         dataZoom: {
           type: 'slider',
           filterMode: "weakFilter",
-          backgroundColor: 'rgba(47,69,84)',
-          handleStyle: {
-            color: 'black',
-          },
+          backgroundColor: 'black',
+          height: 35,
+          left:'10%',
+          right:'10%',
+          borderColor: 'transparent',
+          handleColor: 'white',
+          handleIcon: 'M512 512m-208 0a6.5 6.5 0 1 0 416 0 6.5 6.5 0 1 0-416 0Z M512 192C335.264 192 192 335.264 192 512c0 176.736 143.264 320 320 320s320-143.264 320-320C832 335.264 688.736 192 512 192zM512 800c-159.072 0-288-128.928-288-288 0-159.072 128.928-288 288-288s288 128.928 288 288C800 671.072 671.072 800 512 800z',
+          handleSize: 15,
           textStyle: {
             color: 'white',
+          },
+          dataBackground: {
+            lineStyle: {
+              opacity: 0,
+            },
+            areaStyle:{
+              color: 'white',
+              opacity: 0,
+            }
           }
         },
         xAxis: {
           data: [],
           axisLabel: {
             textStyle: {
+              color: 'black'
+            }
+          },
+          axisLine: {
+            lineStyle:{
               color: 'black'
             }
           }
@@ -149,19 +165,13 @@ export default {
         },
         series: [
           {
-            name: "Length of day",
             type: "line",
             data: [],
-            customData: "terekest",
             smooth: true,
           }
         ],
         lineStyle: {
           color: 'black'
-        },
-        stateAnimation: {
-          duration: 300,
-          easing: 'cubicOut'
         },
       }
     }
@@ -254,6 +264,21 @@ export default {
       return year + "-" + month + "-" + day;
     },
 
+    updateTheme(){
+      const theme = document.getElementsByTagName("html")[0].attributes[
+          "theme"
+          ].value;
+      if (theme === 'light'){
+        this.option.xAxis.axisLine.lineStyle.color = 'black';
+      }
+
+      if (theme === 'dark'){
+        this.option.xAxis.axisLine.lineStyle.color = 'white';
+      }
+      //Force reload
+      //this.option = JSON.parse(JSON.stringify(this.option))
+    }
+
   },
 
   watch: {
@@ -276,6 +301,19 @@ export default {
       if (this.startDate && this.endDate)
         this.showData();
     }
+  },
+
+  mounted() {
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === "attributes") {
+          this.updateTheme();
+        }
+      });
+    });
+    observer.observe(document.getElementsByTagName("html")[0], {
+      attributes: true,
+    });
   }
 
 
@@ -306,11 +344,13 @@ export default {
 }
 
 
+
 .header-container {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  padding-left: 3em;
 }
 
 </style>
