@@ -11,9 +11,52 @@
 
         <v-btn @click="handleTheme"><i :class="lightTheme ? 'fas fa-sun' : 'fas fa-moon'"></i></v-btn>
 
-        <v-btn><i class="fab fa-github"></i></v-btn>
+        <v-btn @click="redirectToGit">
+          <i class="fab fa-github"></i>
+        </v-btn>
 
-        <v-btn><i class="fas fa-info"></i></v-btn>
+        <v-dialog
+            v-model="dialog"
+            width="500"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+                dark
+                v-bind="attrs"
+                v-on="on"
+            >
+              <i class="fas fa-info"></i>
+            </v-btn>
+          </template>
+
+          <v-card>
+            <v-card-title>
+              Info
+            </v-card-title>
+
+            <v-card-text>
+              <br>
+              <p style="color: red">
+                NOTE!
+              </p>
+            </v-card-text>
+
+            <v-divider></v-divider>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                  color="primary"
+                  text
+                  @click="dialog = false"
+              >
+                Close
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+
+
       </div>
 
     </v-app-bar>
@@ -25,12 +68,15 @@
 
 <script>
 
+
+
 export default {
   name: "Header",
 
   data() {
-    return{
-      lightTheme: true
+    return {
+      lightTheme: true,
+      dialog: false,
     }
   },
 
@@ -41,6 +87,10 @@ export default {
           'theme',
           this.lightTheme ? 'light' : 'dark'
       )
+    },
+
+    redirectToGit() {
+      window.open("https://github.com/KaurTaal/DayCalculator", "_blank");
     }
   }
 
@@ -55,7 +105,7 @@ export default {
   align-items: center;
 }
 
-.icons{
+.icons {
   display: flex;
   flex-direction: row;
   gap: 2px;

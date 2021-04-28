@@ -26,10 +26,28 @@ html[theme=light] {
     color: black;
   }
 
+  .v-card__title{
+    background-color: #FCDC53 !important;
+    color: black;
+  }
+
+  .v-card__text{
+    background-color: #FEF0B4;
+    color: black !important;
+  }
+
+  .v-card__actions{
+    background-color: #FCDC53 !important;
+  }
+
+  .v-btn__content{
+    color: black;
+  }
+
   /*Calculator*/
 
   .v-text-field--outlined fieldset{
-    border-color: black;
+
   }
 
   .v-label{
