@@ -88,9 +88,6 @@ body {
   padding-top: unset !important;
 }
 
-.v-text-field--outlined fieldset{
-  border-color: black;
-}
 
 
 

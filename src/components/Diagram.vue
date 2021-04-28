@@ -119,24 +119,24 @@ export default {
         dataZoom: {
           type: 'slider',
           filterMode: "weakFilter",
-          backgroundColor: 'black',
+          backgroundColor: 'white',
           height: 35,
           left:'10%',
           right:'10%',
           borderColor: 'transparent',
-          handleColor: 'white',
+          handleColor: 'black',
           handleIcon: 'M512 512m-208 0a6.5 6.5 0 1 0 416 0 6.5 6.5 0 1 0-416 0Z M512 192C335.264 192 192 335.264 192 512c0 176.736 143.264 320 320 320s320-143.264 320-320C832 335.264 688.736 192 512 192zM512 800c-159.072 0-288-128.928-288-288 0-159.072 128.928-288 288-288s288 128.928 288 288C800 671.072 671.072 800 512 800z',
           handleSize: 15,
           textStyle: {
-            color: 'white',
+            color: 'black',
           },
           dataBackground: {
             lineStyle: {
               opacity: 0,
             },
             areaStyle:{
-              color: 'white',
-              opacity: 0,
+              color: 'black',
+              opacity: 0.5,
             }
           }
         },
@@ -161,6 +161,11 @@ export default {
             textStyle: {
               color: 'black'
             }
+          },
+          splitLine: {
+            lineStyle: {
+              color: 'gray'
+            }
           }
         },
         series: [
@@ -168,11 +173,12 @@ export default {
             type: "line",
             data: [],
             smooth: true,
+            color: 'black',
+            lineStyle: {
+              color: 'black'
+            }
           }
         ],
-        lineStyle: {
-          color: 'black'
-        },
       }
     }
   },
@@ -270,13 +276,32 @@ export default {
           ].value;
       if (theme === 'light'){
         this.option.xAxis.axisLine.lineStyle.color = 'black';
+        this.option.xAxis.axisLabel.textStyle.color = 'black';
+        this.option.yAxis.axisLabel.textStyle.color = 'black';
+        this.option.series[0].color = 'black';
+        this.option.series[0].lineStyle.color = 'black';
+        this.option.dataZoom.backgroundColor = 'white';
+        this.option.dataZoom.handleColor = 'black';
+        this.option.dataZoom.textStyle.color = 'black';
+        this.option.dataZoom.dataBackground.areaStyle.color = 'black';
+        this.option.yAxis.splitLine.lineStyle.color = 'gray';
       }
 
       if (theme === 'dark'){
         this.option.xAxis.axisLine.lineStyle.color = 'white';
+        this.option.xAxis.axisLabel.textStyle.color = 'white';
+        this.option.yAxis.axisLabel.textStyle.color = 'white';
+        this.option.series[0].color = 'white';
+        this.option.series[0].lineStyle.color = 'white';
+        this.option.dataZoom.backgroundColor = 'black';
+        this.option.dataZoom.handleColor = 'white';
+        this.option.dataZoom.textStyle.color = 'white';
+        this.option.dataZoom.dataBackground.areaStyle.color = 'white';
+        this.option.yAxis.splitLine.lineStyle.color = '#C6EEF2';
+
+
       }
-      //Force reload
-      //this.option = JSON.parse(JSON.stringify(this.option))
+      this.option = JSON.parse(JSON.stringify(this.option))
     }
 
   },
@@ -317,8 +342,8 @@ export default {
   }
 
 
-}
-;
+};
+
 </script>
 
 <style scoped>
