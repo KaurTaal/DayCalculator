@@ -162,6 +162,11 @@ export default {
             lineStyle: {
               color: 'black'
             }
+          },
+          axisLine: {
+            lineStyle:{
+              color: 'black'
+            }
           }
         },
         yAxis: {
@@ -406,6 +411,7 @@ export default {
   width: 100%;
   height: 3em;
 }
+
 
 
 .header-container {
