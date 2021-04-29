@@ -79,6 +79,7 @@ export default {
       });
 
 
+
       this.lightMap = new TileLayer({
         source: new XYZ({
           attributions: ['Powered by Esri',
@@ -88,16 +89,6 @@ export default {
         })
       })
 
-      /*
-      const op = new TileLayer({
-        source: new XYZ({
-          attributions: ['Powered by Esri',
-            'Source: Esri, DigitalGlobe, GeoEye, Earthstar Geographics, CNES/Airbus DS, USDA, USGS, AeroGRID, IGN, and the GIS User Community'],
-          attributionsCollapsible: true,
-          url: 'http://{a-c}.tile.stamen.com/toner/{z}/{x}/{y}.png'
-        })
-      })
-       */
 
 
       this.darkMap = new TileLayer({
