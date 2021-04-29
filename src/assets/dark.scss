@@ -1,0 +1,91 @@
+html[theme=dark] {
+  .main-container {
+    background: url("./dark5.jpg");
+    background-size: 100% 100%;
+  }
+
+  /*Heading*/
+  .icons {
+    .v-btn {
+      background-color: #0EBDD3 !important;
+    }
+  }
+
+  i {
+    color: black;
+    font-size: 1.2em;
+  }
+
+  .heading {
+    background-color: #001A1C !important;
+  }
+
+  .header-text {
+    font-size: 1.3em;
+    color: white;
+  }
+
+  .v-card__title {
+    background-color: #041F5B !important;
+    color: white;
+  }
+
+  .v-card__text {
+    background-color: #031438;
+    color: white !important;
+  }
+
+  .v-card__actions {
+    background-color: #041F5B !important;
+  }
+
+  .v-btn__content {
+    color: black;
+  }
+
+
+  /*Calculator*/
+
+  .v-text-field--outlined fieldset {
+    border-color: #0EBDD3;
+  }
+
+  .light-green--text {
+    fieldset {
+      border-color: #76ff03;
+    }
+  }
+
+  .error--text {
+    fieldset {
+      border-color: red;
+    }
+  }
+
+
+  .v-icon {
+    color: #0EBDD3 !important;
+  }
+
+  .v-btn__content {
+    .v-icon {
+      color: black !important;
+    }
+  }
+
+  /*Calculator*/
+  .v-label {
+    color: white !important;
+  }
+
+  input {
+    color: white !important;
+  }
+
+
+  .theme--light.v-text-field > .v-input__control > .v-input__slot:before {
+    background-color: white !important;
+  }
+
+
+}
