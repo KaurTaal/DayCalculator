@@ -2,16 +2,21 @@
   <div class="header">
     <v-app-bar class="header-container heading">
 
-      <v-toolbar-title class="header-text">Length Of Day Calculator</v-toolbar-title>
+      <v-toolbar-title class="header-text">{{ $t('title') }}</v-toolbar-title>
 
       <v-spacer></v-spacer>
 
+
       <div class="icons">
-        <v-btn><i class="fas fa-globe-europe"></i></v-btn>
+        <v-btn :title="$t('lang-button')"
+               rounded @click="setLocale">
+          <i :class="activeIcon"
+          ></i>
+        </v-btn>
 
-        <v-btn @click="handleTheme"><i :class="lightTheme ? 'fas fa-sun' : 'fas fa-moon'"></i></v-btn>
+        <v-btn :title="$t('theme-button')" rounded @click="handleTheme"><i :class="lightTheme ? 'fas fa-sun' : 'fas fa-moon'"></i></v-btn>
 
-        <v-btn @click="redirectToGit">
+        <v-btn :title="$t('git-button')" rounded @click="redirectToGit">
           <i class="fab fa-github"></i>
         </v-btn>
 
@@ -21,9 +26,11 @@
         >
           <template v-slot:activator="{ on, attrs }">
             <v-btn
-                dark
-                v-bind="attrs"
-                v-on="on"
+                :title="$t('info')"
+                rounded
+                   dark
+                   v-bind="attrs"
+                   v-on="on"
             >
               <i class="fas fa-info"></i>
             </v-btn>
@@ -68,8 +75,6 @@
 
 <script>
 
-
-
 export default {
   name: "Header",
 
@@ -77,6 +82,8 @@ export default {
     return {
       lightTheme: true,
       dialog: false,
+      activeLan: 'en',
+      activeIcon: 'fas fa-globe-americas'
     }
   },
 
@@ -91,6 +98,18 @@ export default {
 
     redirectToGit() {
       window.open("https://github.com/KaurTaal/DayCalculator", "_blank");
+    },
+
+    setLocale() {
+      this.setIcon();
+      this.activeLan = this.activeLan === 'en' ? 'est' : 'en'
+      this.$vuetify.lang.current = this.activeLan === 'est' ? 'et' : 'en'
+      this.$i18n.locale = this.activeLan;
+      this.$emit("lanChange", this.activeLan);
+    },
+
+    setIcon() {
+      this.activeIcon = this.activeIcon === 'fas fa-globe-europe' ? 'fas fa-globe-americas' : 'fas fa-globe-europe'
     }
   }
 

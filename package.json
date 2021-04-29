@@ -19,6 +19,7 @@
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.33",
     "ol": "^6.5.0",
+    "require-context": "^1.1.0",
     "suncalc": "^1.8.0",
     "vue": "^2.6.11",
     "vue-axios": "^3.2.4",

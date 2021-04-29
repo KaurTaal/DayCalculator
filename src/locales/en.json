@@ -1,3 +1,17 @@
 {
-  "message": "hello i18n !!"
+  "title" : "Length Of Day Calculator",
+  "longitude" : "Longitude",
+  "latitude": "Latitude",
+  "date": "Date",
+  "start-date": "Start date",
+  "end-date": "End date",
+  "sunrise" : "Sunrise",
+  "sunset": "Sunset",
+  "len-of-day": "Length Of Day",
+  "lang-button": "Language",
+  "theme-button": "Theme",
+  "git-button": "Git",
+  "info": "Info",
+  "polar-night": "Polar night",
+  "polar-day": "Polar day"
 }

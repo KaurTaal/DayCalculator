@@ -6,7 +6,7 @@
       <div class="calc-item-size-container">
         <v-text-field
             v-model="inputLong"
-            label="Longitude"
+            :label="$t('longitude')"
             rounded
             outlined
             dense
@@ -21,7 +21,7 @@
       <div class="calc-item-size-container">
         <v-text-field
             v-model="sunrise"
-            label="Sunrise"
+            :label="$t('sunrise')"
             rounded
             outlined
             dense
@@ -36,7 +36,7 @@
       <div class="calc-item-size-container">
         <v-text-field
             v-model="inputLang"
-            label="Latitude"
+            :label="$t('latitude')"
             rounded
             outlined
             dense
@@ -53,7 +53,7 @@
       <div class="calc-item-size-container">
         <v-text-field
             v-model="sunset"
-            label="Sunset"
+            :label="$t('sunset')"
             rounded
             outlined
             dense
@@ -66,7 +66,10 @@
 
     <div class="calc-item-container" style="justify-content: flex-end">
       <div class="calc-item-size-container" style="padding-top: 0.5em">
+
+
         <v-menu
+            ref="menu"
             v-model="menu"
             :close-on-content-click="false"
             :nudge-right="40"
@@ -77,18 +80,21 @@
           <template v-slot:activator="{ on, attrs }">
             <v-text-field
                 v-model="date"
-                label="Date"
+                :label="$t('date')"
                 prepend-icon="mdi-calendar"
                 readonly
                 v-bind="attrs"
                 v-on="on"
-                :rules="[rules.required]"
                 color="light-green accent-3"
+                style="width: 80%"
+                :rules="[rules.required]"
             ></v-text-field>
           </template>
           <v-date-picker
               v-model="date"
+              no-title
               @input="menu = false"
+              scrollable
           ></v-date-picker>
         </v-menu>
       </div>
@@ -99,7 +105,7 @@
       <div class="calc-item-size-container">
         <v-text-field
             v-model="lenOfDay"
-            label="Length Of Day"
+            :label="$t('len-of-day')"
             rounded
             outlined
             dense
@@ -109,7 +115,7 @@
         ></v-text-field>
       </div>
     </div>
-  </div>
+ </div>
 
 </template>
 
@@ -129,7 +135,6 @@ const validateInput = (input) => {
 
 
 export default {
-
   name: "calculator",
   props: ["long", "lang"],
 
