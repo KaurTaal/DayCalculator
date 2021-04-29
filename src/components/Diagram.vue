@@ -159,11 +159,6 @@ export default {
             color: 'black'
           },
           axisLine: {
-            lineStyle: {
-              color: 'black'
-            }
-          },
-          axisLine: {
             lineStyle:{
               color: 'black'
             }
