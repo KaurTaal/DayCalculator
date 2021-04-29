@@ -29,7 +29,6 @@ import VueRouter from 'vue-router';
 
 
 
-
 Vue.use(Vuetify);
 Vue.use(VueLayers);
 Vue.use(VueRouter);
@@ -40,7 +39,8 @@ export default {
   components: {DayCalculator, Footer, Header},
   icons: {
     iconFont: 'fa'
-  }
+  },
+
 }
 </script>
 

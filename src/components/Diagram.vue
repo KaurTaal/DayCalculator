@@ -18,7 +18,7 @@
             <template v-slot:activator="{ on, attrs }">
               <v-text-field
                   v-model="startDate"
-                  label="Start date"
+                  :label="$t('start-date')"
                   prepend-icon="mdi-calendar"
                   readonly
                   v-bind="attrs"
@@ -48,7 +48,7 @@
             <template v-slot:activator="{ on, attrs }">
               <v-text-field
                   v-model="endDate"
-                  label="End date"
+                  :label="$t('end-date')"
                   prepend-icon="mdi-calendar"
                   readonly
                   v-bind="attrs"
@@ -69,7 +69,7 @@
       </div>
 
       <div style="display: flex; justify-content: flex-end;">
-        <v-btn @click="downloadData">Excel</v-btn>
+        <v-btn rounded elevation="10" class="excel-button" @click="downloadData"><p class="excel-txt" style="margin: 0">Excel</p></v-btn>
       </div>
 
     </div>
@@ -86,6 +86,8 @@ import ECharts from "vue-echarts";
 import "echarts";
 import moment from 'moment-timezone';
 import XLSX from "xlsx";
+import axios from 'axios';
+
 
 export default {
   name: "diagram",
@@ -105,27 +107,28 @@ export default {
       sunset: null,
       lenOfDay: null,
       dayData: {},
+      lenOfDays: [],
 
       option: {
         grid: {
           top: 10,
           right: 10,
-          left: 50,
+          left: 60,
           bottom: 100,
         },
         tooltip: {
           trigger: 'axis',
           formatter: (data) => {
             if (data[0].data === 0) {
-              return Math.round(data[0].data / 60 / 60 * 100) / 100 + ' H' + "<br>" + 'Polar night'
+              return "Date: " + data[0].axisValue + "<br>" +  Math.round(data[0].data / 60 / 60 * 100) / 100 + ' H' + "<br>" + this.$t('polar-night')
             }
 
             if (data[0].data === 86400) {
-              return Math.round(data[0].data / 60 / 60 * 100) / 100 + ' H' + "<br>" + 'Polar day'
+              return "Date: " + data[0].axisValue + "<br>" +  Math.round(data[0].data / 60 / 60 * 100) / 100 + ' H' + "<br>" + this.$t('polar-day')
             }
 
-            return Math.round(data[0].data / 60 / 60 * 100) / 100 + ' H' + "<br> Sunrise: " +
-                this.dayData[data[0].axisValue].sunrise + "<br> Sunset: " +
+            return "Date: " + data[0].axisValue + "<br>" +  Math.round(data[0].data / 60 / 60 * 100) / 100 + ' H' + "<br> " + this.$t('sunrise') + ": " +
+                this.dayData[data[0].axisValue].sunrise + "<br>" + this.$t('sunset') + ": " +
                 this.dayData[data[0].axisValue].sunset;
           },
         },
@@ -195,7 +198,6 @@ export default {
   methods: {
     showData() {
       let dates = [];
-      let values = [];
 
       if (this.convertDate(this.startDate).getTime() > this.convertDate(this.endDate).getTime()) {
         const help = this.endDate;
@@ -204,9 +206,9 @@ export default {
       }
 
       dates = this.getDatePeriod(this.startDate, this.endDate);
-      values = this.getPeriodData(dates);
+      this.lenOfDays = this.getPeriodData(dates);
 
-      this.option.series[0].data = values;
+      this.option.series[0].data = this.lenOfDays;
       this.option.xAxis.data = dates;
       this.option = JSON.parse(JSON.stringify(this.option))
     },
@@ -214,6 +216,9 @@ export default {
     getPeriodData(dates) {
       const SunCalc = require('suncalc');
       let values = [];
+
+      this.dayData = {};
+      this.lenOfDays = [];
 
       for (let i = 0; i < dates.length; i++) {
         let date = this.reverseDate(dates[i]);
@@ -312,35 +317,38 @@ export default {
     },
 
 
-    downloadData() {
-      const rows = [
-        {
-          tulp1: "tere",
-          tulp2: "tere23",
-          tulp3: "tere31"
-        },
-        {
-          tulp1: "tere2222",
-          tulp2: "2222",
-          tulp3: "tere4444"
-        },
-        {
-          tulp1: "12414124",
-          tulp2: "12414124124",
-          tulp3: "tere12312412"
-        }
-      ];
+    async downloadData() {
+      if (this.option.series[0].data.length < 1)
+        return;
 
+      const dates = this.getDatePeriod(this.startDate, this.endDate);
+
+
+      const data = [];
+
+      for (let i = 0; i < dates.length; i++) {
+        data.push({
+          "Date": dates[i],
+            "Sunrise": this.dayData[dates[i]].sunrise,
+            "Sunset": this.dayData[dates[i]].sunset,
+            "Day Length (H)":  Math.round(this.lenOfDays[i] / 60 / 60 * 100) / 100
+        })
+      }
+
+      let lang = this.$i18n.locale;
+      if (lang === "est")
+        lang = "et";
+      const res = await axios.get(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${this.lang}&longitude=${this.long}&localityLanguage=${lang}`);
 
       let wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(
           wb,
-          XLSX.utils.json_to_sheet(rows),
+          XLSX.utils.json_to_sheet(data),
           "Day lengths"
       );
       XLSX.writeFile(
           wb,
-          `Day lengths-${this.startDate}-${this.endDate}.xlsb`
+          `${res.data.locality}.xlsb`
       );
     },
   },

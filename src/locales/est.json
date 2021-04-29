@@ -1,0 +1,18 @@
+{
+  "title" : "Päeva pikkuse kalkulaator",
+  "longitude" : "Laiuskraad",
+  "latitude": "Pikkuskraad",
+  "date": "Kuupäev",
+  "start-date": "Algus",
+  "end-date": "Lõpp",
+  "sunrise" : "Päikesetõus",
+  "sunset": "Loojang",
+  "len-of-day": "Päeva pikkus",
+  "lang-button": "Keel",
+  "theme-button": "Teema",
+  "git-button": "Git",
+  "info": "Info",
+  "polar-night": "Polaaröö",
+  "polar-day": "Polaarpäev"
+
+}
