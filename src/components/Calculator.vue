@@ -2,7 +2,7 @@
 
   <div class="calc-container">
 
-    <div class="calc-item-container">
+    <div class="calc-item-container" style="justify-content: flex-end">
       <div class="calc-item-size-container">
         <v-text-field
             v-model="inputLong"
@@ -12,12 +12,12 @@
             dense
             hide-details
             color="light-green accent-3"
-            :rules="[rules.required, rules.floatNumberLon]"
+            :rules="[rules.required, rules.floatNumber]"
         ></v-text-field>
       </div>
     </div>
 
-    <div class="calc-item-container">
+    <div class="calc-item-container" style="justify-content: flex-start">
       <div class="calc-item-size-container">
         <v-text-field
             v-model="sunrise"
@@ -32,7 +32,7 @@
       </div>
     </div>
 
-    <div class="calc-item-container">
+    <div class="calc-item-container" style="justify-content: flex-end">
       <div class="calc-item-size-container">
         <v-text-field
             v-model="inputLang"
@@ -42,14 +42,14 @@
             dense
             hide-details
             color="light-green accent-3"
-            :rules="[rules.required, rules.floatNumberLat]"
+            :rules="[rules.required, rules.floatNumber]"
             hint="Example: 50.49094"
         ></v-text-field>
       </div>
 
     </div>
 
-    <div class="calc-item-container">
+    <div class="calc-item-container" style="justify-content: flex-start">
       <div class="calc-item-size-container">
         <v-text-field
             v-model="sunset"
@@ -64,7 +64,7 @@
       </div>
     </div>
 
-    <div class="calc-item-container">
+    <div class="calc-item-container" style="justify-content: flex-end">
       <div class="calc-item-size-container" style="padding-top: 0.5em">
         <v-menu
             v-model="menu"
@@ -95,7 +95,7 @@
 
     </div>
 
-    <div class="calc-item-container">
+    <div class="calc-item-container" style="justify-content: flex-start">
       <div class="calc-item-size-container">
         <v-text-field
             v-model="lenOfDay"
@@ -128,34 +128,31 @@ const validateInput = (input) => {
 }
 
 
-
 export default {
 
   name: "calculator",
   props: ["long", "lang"],
 
-  data: () => ({
-    date: null,
-    menu: false,
-    modal: false,
-    inputLong: '',
-    inputLang: '',
-    sunrise: null,
-    sunset: null,
-    lenOfDay: null,
-    emit: true,
+  data() {
+    return {
+      date: null,
+      menu: false,
+      modal: false,
+      inputLong: this.long,
+      inputLang: this.lang,
+      sunrise: null,
+      sunset: null,
+      lenOfDay: null,
 
-    rules: {
-      required: value => !!value || 'Required',
-      floatNumberLat: value => validateInput(value.toString()) || 'Wrong input',
-      floatNumberLon: value => validateInput(value.toString()) || 'Wrong input'
+      rules: {
+        required: value => !!value || value !== "0" || 'Required',
+        floatNumber: value => validateInput(value.toString()) || 'Wrong input',
+      }
     }
-  }),
+  },
 
   methods: {
-
     handleMarkerMove(coords) {
-      this.emit = false;
       this.inputLong = coords[0];
       this.inputLang = coords[1];
     },
@@ -168,21 +165,16 @@ export default {
         let sunrise = SunCalc.getTimes(date, this.inputLang, this.inputLong).sunrise;
         let sunset = SunCalc.getTimes(date, this.inputLang, this.inputLong).sunset;
 
-
-        this.sunrise = moment(sunrise).tz('Europe/Helsinki').format("HH:mm")
-        this.sunset = moment(sunset).tz('Europe/Helsinki').format("HH:mm")
-
+        this.sunrise = moment(sunrise).tz('Europe/Helsinki').format("HH:mm");
+        this.sunset = moment(sunset).tz('Europe/Helsinki').format("HH:mm");
 
         sunrise = moment(sunrise).unix();
         sunset = moment(sunset).unix();
 
-
         let difference = Math.round((sunset - sunrise) / 60 / 60 * 100) / 100;
-        this.lenOfDay = `${difference} H`
-
+        this.lenOfDay = `${difference} H`;
       }
     },
-
 
     convertDate(date) {
       if (date) {
@@ -193,7 +185,6 @@ export default {
         return new Date(year, month - 1, day);
       }
     },
-
   },
 
   watch: {
@@ -201,32 +192,31 @@ export default {
       this.inputLong = Math.round(this.long * 10000) / 10000;
     },
     lang() {
-      this.inputLang = Math.round(this.lang* 10000) / 10000;
+      this.inputLang = Math.round(this.lang * 10000) / 10000;
     },
     inputLang() {
       if (validateInput(this.inputLang.toString()) && validateInput(this.inputLong.toString())) {
-        this.$emit("lonAndLanChange", [this.inputLong, this.inputLang]);
         this.showData();
-        this.emit = true;
       }
+      this.$emit("lonAndLanChange", [this.inputLong, this.inputLang]);
+
     },
 
     inputLong() {
       if (validateInput(this.inputLang.toString()) && validateInput(this.inputLong.toString())) {
-        this.$emit("lonAndLanChange", [this.inputLong, this.inputLang]);
         this.showData();
-        this.emit = true;
       }
+      this.$emit("lonAndLanChange", [this.inputLong, this.inputLang]);
     },
 
     date() {
       if (validateInput(this.inputLang.toString()) && validateInput(this.inputLong.toString())) {
         this.$emit("lonAndLanChange", [this.inputLong, this.inputLang]);
         this.showData();
-        this.emit = true;
       }
-    }
+    },
   },
+
 }
 
 
@@ -238,13 +228,14 @@ export default {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-row-gap: 2em;
+  gap: 3em;
 }
 
 .calc-item-container {
   display: flex;
-  justify-content: center;
   align-content: center;
   align-items: center;
+
 }
 
 .calc-item-size-container {

@@ -1,7 +1,64 @@
 html[theme=light] {
   .main-container {
-    background: url("./light4.jpg");
+    background: url("./light.jpg");
     background-size: 100% 100%;
   }
 
+  /*Heading*/
+
+  .icons {
+    .v-btn {
+      background-color: rgb(240, 230, 140) !important;
+    }
+  }
+
+  i{
+    color: black;
+    font-size: 1.2em;
+  }
+
+  .heading{
+    background-color: rgb(255, 255, 220) !important;
+  }
+
+  .header-text{
+    font-size: 1.3em;
+    color: black;
+  }
+
+  .v-card__title{
+    background-color: #FCDC53 !important;
+    color: black;
+  }
+
+  .v-card__text{
+    background-color: #FEF0B4;
+    color: black !important;
+  }
+
+  .v-card__actions{
+    background-color: #FCDC53 !important;
+  }
+
+  .v-btn__content{
+    color: black;
+  }
+
+  /*Calculator*/
+
+  .v-text-field--outlined fieldset{
+
+  }
+
+  .v-label{
+    color: black !important;
+  }
+
+  .v-icon{
+    color: black !important;
+  }
+
+  input{
+    color: black !important;
+  }
 }

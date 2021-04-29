@@ -36,8 +36,8 @@ export default {
 
   data() {
     return {
-      long: 0,
-      lang: 50
+      long: 26,
+      lang: 60
     }
   },
 

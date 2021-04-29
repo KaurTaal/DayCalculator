@@ -25,12 +25,14 @@ import 'vuelayers/lib/style.css';
 import '@fortawesome/fontawesome-free/css/all.css'
 import '@/assets/light.scss'
 import '@/assets/dark.scss'
+import VueRouter from 'vue-router';
 
 
 
 
 Vue.use(Vuetify);
 Vue.use(VueLayers);
+Vue.use(VueRouter);
 
 
 export default {
@@ -91,6 +93,9 @@ body {
 .v-text-field--outlined fieldset{
   border-color: black;
 }
+
+
+
 
 
 

@@ -68,11 +68,15 @@
 
       </div>
 
+      <div style="display: flex; justify-content: flex-end;">
+        <v-btn @click="downloadData">Excel</v-btn>
+      </div>
+
     </div>
 
-    <v-chart
-        autoresize
-        :option="option"
+    <v-chart style="min-height: 20em"
+             autoresize
+             :option="option"
     ></v-chart>
   </div>
 </template>
@@ -81,6 +85,7 @@
 import ECharts from "vue-echarts";
 import "echarts";
 import moment from 'moment-timezone';
+import XLSX from "xlsx";
 
 export default {
   name: "diagram",
@@ -111,6 +116,14 @@ export default {
         tooltip: {
           trigger: 'axis',
           formatter: (data) => {
+            if (data[0].data === 0) {
+              return Math.round(data[0].data / 60 / 60 * 100) / 100 + ' H' + "<br>" + 'Polar night'
+            }
+
+            if (data[0].data === 86400) {
+              return Math.round(data[0].data / 60 / 60 * 100) / 100 + ' H' + "<br>" + 'Polar day'
+            }
+
             return Math.round(data[0].data / 60 / 60 * 100) / 100 + ' H' + "<br> Sunrise: " +
                 this.dayData[data[0].axisValue].sunrise + "<br> Sunset: " +
                 this.dayData[data[0].axisValue].sunset;
@@ -119,33 +132,31 @@ export default {
         dataZoom: {
           type: 'slider',
           filterMode: "weakFilter",
-          backgroundColor: 'black',
+          backgroundColor: 'white',
           height: 35,
-          left:'10%',
-          right:'10%',
+          left: '10%',
+          right: '10%',
           borderColor: 'transparent',
-          handleColor: 'white',
+          handleColor: 'black',
           handleIcon: 'M512 512m-208 0a6.5 6.5 0 1 0 416 0 6.5 6.5 0 1 0-416 0Z M512 192C335.264 192 192 335.264 192 512c0 176.736 143.264 320 320 320s320-143.264 320-320C832 335.264 688.736 192 512 192zM512 800c-159.072 0-288-128.928-288-288 0-159.072 128.928-288 288-288s288 128.928 288 288C800 671.072 671.072 800 512 800z',
           handleSize: 15,
           textStyle: {
-            color: 'white',
+            color: 'black',
           },
           dataBackground: {
             lineStyle: {
               opacity: 0,
             },
-            areaStyle:{
-              color: 'white',
-              opacity: 0,
+            areaStyle: {
+              color: 'black',
+              opacity: 0.5,
             }
           }
         },
         xAxis: {
           data: [],
           axisLabel: {
-            textStyle: {
-              color: 'black'
-            }
+            color: 'black'
           },
           axisLine: {
             lineStyle:{
@@ -155,11 +166,14 @@ export default {
         },
         yAxis: {
           axisLabel: {
+            color: 'black',
             formatter: function (time) {
               return Math.round(time / 60 / 60 * 100) / 100 + ' H';
             },
-            textStyle: {
-              color: 'black'
+          },
+          splitLine: {
+            lineStyle: {
+              color: 'gray'
             }
           }
         },
@@ -168,11 +182,12 @@ export default {
             type: "line",
             data: [],
             smooth: true,
+            color: 'black',
+            lineStyle: {
+              color: 'black'
+            }
           }
         ],
-        lineStyle: {
-          color: 'black'
-        },
       }
     }
   },
@@ -182,7 +197,7 @@ export default {
       let dates = [];
       let values = [];
 
-      if (this.convertDate(this.startDate).getTime() > this.convertDate(this.endDate).getTime()){
+      if (this.convertDate(this.startDate).getTime() > this.convertDate(this.endDate).getTime()) {
         const help = this.endDate;
         this.endDate = this.startDate;
         this.startDate = help;
@@ -207,9 +222,9 @@ export default {
         let sunrise = SunCalc.getTimes(date, this.lang, this.long).sunrise;
         let sunset = SunCalc.getTimes(date, this.lang, this.long).sunset;
 
-        if (isNaN(sunrise)){
+        if (isNaN(sunrise)) {
           this.dayData[dates[i]] = {sunrise: "-", sunset: "-"};
-          if (values[i-1] > 20 * 60 * 60)
+          if (values[i - 1] > 20 * 60 * 60)
             values.push(24 * 60 * 60);
           else
             values.push(0);
@@ -264,21 +279,70 @@ export default {
       return year + "-" + month + "-" + day;
     },
 
-    updateTheme(){
+    updateTheme() {
       const theme = document.getElementsByTagName("html")[0].attributes[
           "theme"
           ].value;
-      if (theme === 'light'){
+      if (theme === 'light') {
         this.option.xAxis.axisLine.lineStyle.color = 'black';
+        this.option.xAxis.axisLabel.color = 'black';
+        this.option.yAxis.axisLabel.color = 'black';
+        this.option.series[0].color = 'black';
+        this.option.series[0].lineStyle.color = 'black';
+        this.option.dataZoom.backgroundColor = 'white';
+        this.option.dataZoom.handleColor = 'black';
+        this.option.dataZoom.textStyle.color = 'black';
+        this.option.dataZoom.dataBackground.areaStyle.color = 'black';
+        this.option.yAxis.splitLine.lineStyle.color = 'gray';
       }
 
-      if (theme === 'dark'){
+      if (theme === 'dark') {
         this.option.xAxis.axisLine.lineStyle.color = 'white';
+        this.option.xAxis.axisLabel.color = 'white';
+        this.option.yAxis.axisLabel.color = 'white';
+        this.option.series[0].color = 'white';
+        this.option.series[0].lineStyle.color = 'white';
+        this.option.dataZoom.backgroundColor = 'black';
+        this.option.dataZoom.handleColor = 'white';
+        this.option.dataZoom.textStyle.color = 'white';
+        this.option.dataZoom.dataBackground.areaStyle.color = 'white';
+        this.option.yAxis.splitLine.lineStyle.color = '#0EBDD3';
       }
-      //Force reload
-      //this.option = JSON.parse(JSON.stringify(this.option))
-    }
+      this.option = JSON.parse(JSON.stringify(this.option))
+    },
 
+
+    downloadData() {
+      const rows = [
+        {
+          tulp1: "tere",
+          tulp2: "tere23",
+          tulp3: "tere31"
+        },
+        {
+          tulp1: "tere2222",
+          tulp2: "2222",
+          tulp3: "tere4444"
+        },
+        {
+          tulp1: "12414124",
+          tulp2: "12414124124",
+          tulp3: "tere12312412"
+        }
+      ];
+
+
+      let wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(
+          wb,
+          XLSX.utils.json_to_sheet(rows),
+          "Day lengths"
+      );
+      XLSX.writeFile(
+          wb,
+          `Day lengths-${this.startDate}-${this.endDate}.xlsb`
+      );
+    },
   },
 
   watch: {
@@ -292,12 +356,12 @@ export default {
         this.showData();
     },
 
-    long(){
+    long() {
       if (this.startDate && this.endDate)
         this.showData();
     },
 
-    lang(){
+    lang() {
       if (this.startDate && this.endDate)
         this.showData();
     }
@@ -317,8 +381,8 @@ export default {
   }
 
 
-}
-;
+};
+
 </script>
 
 <style scoped>
