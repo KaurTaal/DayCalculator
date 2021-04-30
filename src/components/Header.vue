@@ -109,7 +109,7 @@ export default {
     setLocale() {
       this.setIcon();
       this.activeLan = this.activeLan === 'en' ? 'est' : 'en'
-      this.$vuetify.lati.current = this.activeLan === 'est' ? 'et' : 'en'
+      this.$vuetify.lang.current = this.activeLan === 'est' ? 'et' : 'en'
       this.$i18n.locale = this.activeLan;
       this.$emit("lanChange", this.activeLan);
     },

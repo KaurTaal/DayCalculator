@@ -4,7 +4,6 @@
 
       <Header></Header>
       <DayCalculator class="content-padding"></DayCalculator>
-      <Footer></Footer>
 
     </div>
   </v-app>
@@ -14,7 +13,6 @@
 
 
 import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import DayCalculator from "@/pages/DayCalculator";
 import Vue from 'vue';
 import Vuetify from 'vuetify';
@@ -36,7 +34,7 @@ Vue.use(VueRouter);
 
 export default {
   name: 'App',
-  components: {DayCalculator, Footer, Header},
+  components: {DayCalculator, Header},
   icons: {
     iconFont: 'fa'
   },
