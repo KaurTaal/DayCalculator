@@ -8,7 +8,7 @@
 
 
       <div class="icons">
-        <v-btn :title="$t('lang-button')"
+        <v-btn :title="$t('lati-button')"
                rounded @click="setLocale">
           <i :class="activeIcon"
           ></i>
@@ -43,9 +43,15 @@
 
             <v-card-text>
               <br>
-              <p style="color: red">
-                NOTE!
-              </p>
+              <p class="info-heading">{{$t('calc-heading')}}</p>
+              <p>{{$t('calculator')}}</p>
+
+              <p class="info-heading">{{$t('map-heading')}}</p>
+              <p>{{$t('map')}}</p>
+
+              <p class="info-heading">{{$t('chart-heading')}}</p>
+              <p>{{$t('chart')}}</p>
+
             </v-card-text>
 
             <v-divider></v-divider>
@@ -103,7 +109,7 @@ export default {
     setLocale() {
       this.setIcon();
       this.activeLan = this.activeLan === 'en' ? 'est' : 'en'
-      this.$vuetify.lang.current = this.activeLan === 'est' ? 'et' : 'en'
+      this.$vuetify.lati.current = this.activeLan === 'est' ? 'et' : 'en'
       this.$i18n.locale = this.activeLan;
       this.$emit("lanChange", this.activeLan);
     },

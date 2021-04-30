@@ -35,7 +35,7 @@
     <div class="calc-item-container" style="justify-content: flex-end">
       <div class="calc-item-size-container">
         <v-text-field
-            v-model="inputLang"
+            v-model="inputlati"
             :label="$t('latitude')"
             rounded
             outlined
@@ -136,7 +136,7 @@ const validateInput = (input) => {
 
 export default {
   name: "calculator",
-  props: ["long", "lang"],
+  props: ["long", "lati"],
 
   data() {
     return {
@@ -144,7 +144,7 @@ export default {
       menu: false,
       modal: false,
       inputLong: this.long,
-      inputLang: this.lang,
+      inputlati: this.lati,
       sunrise: null,
       sunset: null,
       lenOfDay: null,
@@ -159,7 +159,7 @@ export default {
   methods: {
     handleMarkerMove(coords) {
       this.inputLong = coords[0];
-      this.inputLang = coords[1];
+      this.inputlati = coords[1];
     },
 
 
@@ -167,8 +167,16 @@ export default {
       if (this.date) {
         const SunCalc = require('suncalc');
         const date = this.convertDate(this.date);
-        let sunrise = SunCalc.getTimes(date, this.inputLang, this.inputLong).sunrise;
-        let sunset = SunCalc.getTimes(date, this.inputLang, this.inputLong).sunset;
+
+        let sunrise = SunCalc.getTimes(date, this.inputlati, this.inputLong).sunrise;
+        let sunset = SunCalc.getTimes(date, this.inputlati, this.inputLong).sunset;
+
+        if (isNaN(sunset) || isNaN(sunset)){
+          this.sunrise = "-";
+          this.sunset = "-";
+          this.lenOfDay = "24 H / 0 H";
+          return;
+        }
 
         this.sunrise = moment(sunrise).tz('Europe/Helsinki').format("HH:mm");
         this.sunset = moment(sunset).tz('Europe/Helsinki').format("HH:mm");
@@ -196,27 +204,27 @@ export default {
     long() {
       this.inputLong = Math.round(this.long * 10000) / 10000;
     },
-    lang() {
-      this.inputLang = Math.round(this.lang * 10000) / 10000;
+    lati() {
+      this.inputlati = Math.round(this.lati * 10000) / 10000;
     },
-    inputLang() {
-      if (validateInput(this.inputLang.toString()) && validateInput(this.inputLong.toString())) {
+    inputlati() {
+      if (validateInput(this.inputlati.toString()) && validateInput(this.inputLong.toString())) {
         this.showData();
       }
-      this.$emit("lonAndLanChange", [this.inputLong, this.inputLang]);
+      this.$emit("lonAndLanChange", [this.inputLong, this.inputlati]);
 
     },
 
     inputLong() {
-      if (validateInput(this.inputLang.toString()) && validateInput(this.inputLong.toString())) {
+      if (validateInput(this.inputlati.toString()) && validateInput(this.inputLong.toString())) {
         this.showData();
       }
-      this.$emit("lonAndLanChange", [this.inputLong, this.inputLang]);
+      this.$emit("lonAndLanChange", [this.inputLong, this.inputlati]);
     },
 
     date() {
-      if (validateInput(this.inputLang.toString()) && validateInput(this.inputLong.toString())) {
-        this.$emit("lonAndLanChange", [this.inputLong, this.inputLang]);
+      if (validateInput(this.inputlati.toString()) && validateInput(this.inputLong.toString())) {
+        this.$emit("lonAndLanChange", [this.inputLong, this.inputlati]);
         this.showData();
       }
     },

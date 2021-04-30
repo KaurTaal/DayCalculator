@@ -3,12 +3,12 @@
     <div class="calc-and-map">
       <Calculator
           :long="long"
-          :lang="lang"
+          :lati="lati"
           ref="calculator" @lonAndLanChange="handleLonAndLanChange"
       ></Calculator>
       <Map ref="map" @markerMove="handleMarkerMove"
            :long="long"
-           :lang="lang"
+           :lati="lati"
       ></Map>
     </div>
 
@@ -16,7 +16,7 @@
       <Diagram
           ref="diagram"
           :long="long"
-          :lang="lang"
+          :lati="lati"
       ></Diagram>
     </div>
 
@@ -37,19 +37,19 @@ export default {
   data() {
     return {
       long: 26,
-      lang: 60
+      lati: 60
     }
   },
 
   methods: {
     handleMarkerMove(coords) {
       this.long = coords[0];
-      this.lang = coords[1];
+      this.lati = coords[1];
     },
 
     handleLonAndLanChange(coords) {
       this.long = coords[0];
-      this.lang = coords[1];
+      this.lati = coords[1];
     },
 
 

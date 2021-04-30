@@ -1,6 +1,6 @@
 html[theme=dark] {
   .main-container {
-    background: url("./dark5.jpg");
+    background: url("./dark.jpg");
     background-size: 100% 100%;
   }
 
@@ -43,6 +43,19 @@ html[theme=dark] {
     color: black;
   }
 
+  .v-card__actions{
+    .v-btn__content{
+      color: white;
+    }
+  }
+
+
+  /*info text*/
+  .info-heading{
+    color: #0EBDD3;
+    font-size: 1.5em;
+    font-weight: bold;
+  }
 
   /*Calculator*/
 

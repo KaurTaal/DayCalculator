@@ -23,7 +23,7 @@ import {defaults} from 'ol/control'
 export default {
 
   name: "map-component",
-  props: ["long", "lang"],
+  props: ["long", "lati"],
   data() {
     return {
       map: null,
@@ -37,14 +37,14 @@ export default {
 
   methods: {
 
-    handleNewLoc(long, lang) {
+    handleNewLoc(long, lati) {
       this.emit = false;
-      this.setMarkerLoc(long, lang);
+      this.setMarkerLoc(long, lati);
     },
 
     initMap() {
       const startLon = this.long;
-      const startLan = this.lang;
+      const startLan = this.lati;
       this.marker = new Point(fromLonLat([startLon, startLan]));
 
       const tileLayer = new TileLayer({
@@ -183,10 +183,10 @@ export default {
 
   watch: {
     long() {
-      this.handleNewLoc(this.long, this.lang);
+      this.handleNewLoc(this.long, this.lati);
     },
-    lang() {
-      this.handleNewLoc(this.long, this.lang);
+    lati() {
+      this.handleNewLoc(this.long, this.lati);
     }
   }
 
