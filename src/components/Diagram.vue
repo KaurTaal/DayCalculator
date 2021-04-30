@@ -93,7 +93,7 @@ export default {
   name: "diagram",
 
   components: {"v-chart": ECharts},
-  props: ["long", "lang"],
+  props: ["long", "lati"],
 
   data() {
     return {
@@ -224,8 +224,8 @@ export default {
         let date = this.reverseDate(dates[i]);
         date = this.convertDate(date);
 
-        let sunrise = SunCalc.getTimes(date, this.lang, this.long).sunrise;
-        let sunset = SunCalc.getTimes(date, this.lang, this.long).sunset;
+        let sunrise = SunCalc.getTimes(date, this.lati, this.long).sunrise;
+        let sunset = SunCalc.getTimes(date, this.lati, this.long).sunset;
 
         if (isNaN(sunrise)) {
           this.dayData[dates[i]] = {sunrise: "-", sunset: "-"};
@@ -335,10 +335,10 @@ export default {
         })
       }
 
-      let lang = this.$i18n.locale;
-      if (lang === "est")
-        lang = "et";
-      const res = await axios.get(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${this.lang}&longitude=${this.long}&localityLanguage=${lang}`);
+      let lati = this.$i18n.locale;
+      if (lati === "est")
+        lati = "et";
+      const res = await axios.get(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${this.lati}&longitude=${this.long}&localitylatiuage=${lati}`);
 
       let wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(
@@ -369,7 +369,7 @@ export default {
         this.showData();
     },
 
-    lang() {
+    lati() {
       if (this.startDate && this.endDate)
         this.showData();
     }
