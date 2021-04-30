@@ -96,7 +96,7 @@ export default {
           attributions: ['Powered by Esri',
             'Source: Esri, DigitalGlobe, GeoEye, Earthstar Geographics, CNES/Airbus DS, USDA, USGS, AeroGRID, IGN, and the GIS User Community'],
           attributionsCollapsible: true,
-          url: 'http://{a-c}.tile.stamen.com/toner/{z}/{x}/{y}.png'
+          url: 'https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}'
         })
       })
 
