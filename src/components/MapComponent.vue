@@ -58,11 +58,11 @@ export default {
 
       const iconStyle = new Style({
         image: new Circle({
-          radius: 5,
+          radius: 7,
           fill: new Fill({color: 'red'}),
           stroke: new Stroke({
             color: 'black',
-            width: 2,
+            width: 3,
           }),
         }),
       });
@@ -82,10 +82,8 @@ export default {
 
       this.lightMap = new TileLayer({
         source: new XYZ({
-          attributions: ['Powered by Esri',
-            'Source: Esri, DigitalGlobe, GeoEye, Earthstar Geographics, CNES/Airbus DS, USDA, USGS, AeroGRID, IGN, and the GIS User Community'],
           attributionsCollapsible: false,
-          url: 'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+          url: 'https://services.arcgisonline.com/arcgis/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}',
         })
       })
 
@@ -93,8 +91,6 @@ export default {
 
       this.darkMap = new TileLayer({
         source: new XYZ({
-          attributions: ['Powered by Esri',
-            'Source: Esri, DigitalGlobe, GeoEye, Earthstar Geographics, CNES/Airbus DS, USDA, USGS, AeroGRID, IGN, and the GIS User Community'],
           attributionsCollapsible: true,
           url: 'https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}'
         })
@@ -113,7 +109,8 @@ export default {
 
             // the map view will initially show the whole world
             view: new View({
-              zoom: 2,
+              zoom: 5,
+              maxZoom: 12,
               center: fromLonLat([startLon, startLan]),
             }),
           })

@@ -120,14 +120,14 @@ export default {
           trigger: 'axis',
           formatter: (data) => {
             if (data[0].data === 0) {
-              return "Date: " + data[0].axisValue + "<br>" +  Math.round(data[0].data / 60 / 60 * 100) / 100 + ' H' + "<br>" + this.$t('polar-night')
+              return this.$t('date') + ": " + data[0].axisValue + "<br>" + this.$t('len-of-day') + ": " +  Math.round(data[0].data / 60 / 60 * 100) / 100  + ' H' + "<br>" + this.$t('polar-night')
             }
 
             if (data[0].data === 86400) {
-              return "Date: " + data[0].axisValue + "<br>" +  Math.round(data[0].data / 60 / 60 * 100) / 100 + ' H' + "<br>" + this.$t('polar-day')
+              return this.$t('date') + ": " + data[0].axisValue + "<br>" + this.$t('len-of-day') + ": " +  Math.round(data[0].data / 60 / 60 * 100) / 100 + ' H' + "<br>" + this.$t('polar-day')
             }
 
-            return "Date: " + data[0].axisValue + "<br>" +  Math.round(data[0].data / 60 / 60 * 100) / 100 + ' H' + "<br> " + this.$t('sunrise') + ": " +
+            return this.$t('date') + ": " + data[0].axisValue + "<br>" + this.$t('len-of-day') + ": " +  Math.round(data[0].data / 60 / 60 * 100) / 100 + ' H' + "<br> " + this.$t('sunrise') + ": " +
                 this.dayData[data[0].axisValue].sunrise + "<br>" + this.$t('sunset') + ": " +
                 this.dayData[data[0].axisValue].sunset;
           },
@@ -168,6 +168,9 @@ export default {
           }
         },
         yAxis: {
+          max: 24 * 60 * 60,
+          min: 0,
+          splitNumber: 3,
           axisLabel: {
             color: 'black',
             formatter: function (time) {
@@ -302,7 +305,7 @@ export default {
       }
 
       if (theme === 'dark') {
-        this.option.xAxis.axisLine.lineStyle.color = 'white';
+        this.option.xAxis.axisLine.lineStyle.color = '#0EBDD3';
         this.option.xAxis.axisLabel.color = 'white';
         this.option.yAxis.axisLabel.color = 'white';
         this.option.series[0].color = 'white';

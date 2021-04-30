@@ -36,8 +36,8 @@ export default {
 
   data() {
     return {
-      long: 26,
-      lati: 60
+      lati: 58.3652315,
+      long: 26.7388686,
     }
   },
 
