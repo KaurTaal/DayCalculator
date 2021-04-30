@@ -43,9 +43,15 @@
 
             <v-card-text>
               <br>
-              <p style="color: red">
-                NOTE!
-              </p>
+              <p class="info-heading">{{$t('calc-heading')}}</p>
+              <p>{{$t('calculator')}}</p>
+
+              <p class="info-heading">{{$t('map-heading')}}</p>
+              <p>{{$t('map')}}</p>
+
+              <p class="info-heading">{{$t('chart-heading')}}</p>
+              <p>{{$t('chart')}}</p>
+
             </v-card-text>
 
             <v-divider></v-divider>

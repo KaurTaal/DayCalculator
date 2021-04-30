@@ -13,6 +13,14 @@
   "git-button": "Git",
   "info": "Info",
   "polar-night": "Polaaröö",
-  "polar-day": "Polaarpäev"
+  "polar-day": "Polaarpäev",
+
+  "calc-heading": "Kalkulaator\n",
+  "map-heading": "Kaart \n",
+  "chart-heading": "Diagramm\n",
+
+  "calculator": "Kalkulaatoriga on võimalik arvutada päeva pikkust etteantud koordinaatidel ja kuupäeval. \n Koordinaatide sisestamisel kasutage EPSG:4326 koordinaatsüsteemi.\n",
+  "map" : "Kaardi pealt koordinaatide valimiseks haarake markerist kinni ja lohistage ta soovitud asukohale.\n Veebileht kasutab OpenLayers kaarti.\n",
+  "chart": "Info kuvamiseks valige soovitud vahemik ja fikseerige asukoht. Exceli dokumendi nime (asukoha) määramisel kasutatakse api.bigdatacloud andmebaasi.\n Veebirakendus kasutab Apache Echartsi diagrammi.\n"
 
 }

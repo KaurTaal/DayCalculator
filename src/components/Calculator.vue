@@ -167,8 +167,16 @@ export default {
       if (this.date) {
         const SunCalc = require('suncalc');
         const date = this.convertDate(this.date);
+
         let sunrise = SunCalc.getTimes(date, this.inputLang, this.inputLong).sunrise;
         let sunset = SunCalc.getTimes(date, this.inputLang, this.inputLong).sunset;
+
+        if (isNaN(sunset) || isNaN(sunset)){
+          this.sunrise = "-";
+          this.sunset = "-";
+          this.lenOfDay = "24 H / 0 H";
+          return;
+        }
 
         this.sunrise = moment(sunrise).tz('Europe/Helsinki').format("HH:mm");
         this.sunset = moment(sunset).tz('Europe/Helsinki').format("HH:mm");

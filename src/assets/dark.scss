@@ -43,6 +43,19 @@ html[theme=dark] {
     color: black;
   }
 
+  .v-card__actions{
+    .v-btn__content{
+      color: white;
+    }
+  }
+
+
+  /*info text*/
+  .info-heading{
+    color: #0EBDD3;
+    font-size: 1.5em;
+    font-weight: bold;
+  }
 
   /*Calculator*/
 

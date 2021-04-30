@@ -13,5 +13,18 @@
   "git-button": "Git",
   "info": "Info",
   "polar-night": "Polar night",
-  "polar-day": "Polar day"
+  "polar-day": "Polar day",
+
+  "calc-heading": "Calculator\n",
+  "map-heading": "Map \n",
+  "chart-heading": "Diagram\n",
+
+
+  "calculator": "This is a calculator for calculating the length of time at the given location and date.\n Please use the EPSG:4326 coordinate system.\n",
+  "map": "You can choose the coordinates on the map by dragging the marker to the destination.\n The map is provided by OpenLayers.\n",
+  "chart": "In order to see the results you must choose the desired period and a location. Excel file name (location) is provided by api.bigdatacloud.  \n The diagram is provided by Apache Echarts.\n"
+
+
+
+
 }
