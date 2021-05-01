@@ -8,7 +8,7 @@
 
 
       <div class="icons">
-        <v-btn :title="$t('lati-button')"
+        <v-btn :title="$t('lang-button')"
                rounded @click="setLocale">
           <i :class="activeIcon"
           ></i>

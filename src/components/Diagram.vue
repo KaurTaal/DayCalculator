@@ -108,6 +108,7 @@ export default {
       lenOfDay: null,
       dayData: {},
       lenOfDays: [],
+      activeTimeZone: null,
 
       option: {
         grid: {
@@ -239,8 +240,13 @@ export default {
           continue;
         }
 
-        this.sunrise = moment(sunrise).tz('Europe/Helsinki').format("HH:mm")
-        this.sunset = moment(sunset).tz('Europe/Helsinki').format("HH:mm")
+        if (this.activeTimeZone) {
+          this.sunrise = moment(sunrise).tz(this.activeTimeZone).format("HH:mm")
+          this.sunset = moment(sunset).tz(this.activeTimeZone).format("HH:mm")
+        }else {
+          this.sunrise = moment(sunrise).format("HH:mm")
+          this.sunset = moment(sunset).format("HH:mm")
+        }
 
         sunrise = moment(sunrise).unix();
         sunset = moment(sunset).unix();
@@ -373,6 +379,11 @@ export default {
     },
 
     lati() {
+      if (this.startDate && this.endDate)
+        this.showData();
+    },
+
+    activeTimeZone(){
       if (this.startDate && this.endDate)
         this.showData();
     }

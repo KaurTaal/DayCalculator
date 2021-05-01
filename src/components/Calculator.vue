@@ -1,127 +1,150 @@
 <template>
 
-  <div class="calc-container">
+  <div>
+    <div class="calc-container">
 
-    <div class="calc-item-container" style="justify-content: flex-end">
-      <div class="calc-item-size-container">
-        <v-text-field
-            v-model="inputLong"
-            :label="$t('longitude')"
-            rounded
-            outlined
-            dense
-            hide-details
-            color="light-green accent-3"
-            :rules="[rules.required, rules.floatNumber]"
-        ></v-text-field>
-      </div>
-    </div>
-
-    <div class="calc-item-container" style="justify-content: flex-start">
-      <div class="calc-item-size-container">
-        <v-text-field
-            v-model="sunrise"
-            :label="$t('sunrise')"
-            rounded
-            outlined
-            dense
-            hide-details
-            color="black"
-            readonly
-        ></v-text-field>
-      </div>
-    </div>
-
-    <div class="calc-item-container" style="justify-content: flex-end">
-      <div class="calc-item-size-container">
-        <v-text-field
-            v-model="inputlati"
-            :label="$t('latitude')"
-            rounded
-            outlined
-            dense
-            hide-details
-            color="light-green accent-3"
-            :rules="[rules.required, rules.floatNumber]"
-            hint="Example: 50.49094"
-        ></v-text-field>
+      <div class="calc-item-container" style="justify-content: flex-end">
+        <div class="calc-item-size-container">
+          <v-text-field
+              v-model="inputLong"
+              :label="$t('longitude')"
+              rounded
+              outlined
+              dense
+              hide-details
+              color="light-green accent-3"
+              :rules="[rules.required, rules.floatNumber]"
+          ></v-text-field>
+        </div>
       </div>
 
-    </div>
-
-    <div class="calc-item-container" style="justify-content: flex-start">
-      <div class="calc-item-size-container">
-        <v-text-field
-            v-model="sunset"
-            :label="$t('sunset')"
-            rounded
-            outlined
-            dense
-            hide-details
-            readonly
-            color="black"
-        ></v-text-field>
+      <div class="calc-item-container" style="justify-content: flex-start">
+        <div class="calc-item-size-container">
+          <v-text-field
+              v-model="sunrise"
+              :label="$t('sunrise')"
+              rounded
+              outlined
+              dense
+              hide-details
+              color="black"
+              readonly
+          ></v-text-field>
+        </div>
       </div>
-    </div>
 
-    <div class="calc-item-container" style="justify-content: flex-end">
-      <div class="calc-item-size-container" style="padding-top: 0.5em">
+      <div class="calc-item-container" style="justify-content: flex-end">
+        <div class="calc-item-size-container">
+          <v-text-field
+              v-model="inputlati"
+              :label="$t('latitude')"
+              rounded
+              outlined
+              dense
+              hide-details
+              color="light-green accent-3"
+              :rules="[rules.required, rules.floatNumber]"
+              hint="Example: 50.49094"
+          ></v-text-field>
+        </div>
+
+      </div>
+
+      <div class="calc-item-container" style="justify-content: flex-start">
+        <div class="calc-item-size-container">
+          <v-text-field
+              v-model="sunset"
+              :label="$t('sunset')"
+              rounded
+              outlined
+              dense
+              hide-details
+              readonly
+              color="black"
+          ></v-text-field>
+        </div>
+      </div>
+
+      <div class="calc-item-container" style="justify-content: flex-end">
+        <div class="calc-item-size-container" style="padding-top: 0.5em">
 
 
-        <v-menu
-            ref="menu"
-            v-model="menu"
-            :close-on-content-click="false"
-            :nudge-right="40"
-            transition="scale-transition"
-            offset-y
-            min-width="auto"
-        >
-          <template v-slot:activator="{ on, attrs }">
-            <v-text-field
+          <v-menu
+              ref="menu"
+              v-model="menu"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
+              min-width="auto"
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <v-text-field
+                  v-model="date"
+                  :label="$t('date')"
+                  prepend-icon="mdi-calendar"
+                  readonly
+                  v-bind="attrs"
+                  v-on="on"
+                  color="light-green accent-3"
+                  style="width: 80%"
+                  :rules="[rules.required]"
+              ></v-text-field>
+            </template>
+            <v-date-picker
                 v-model="date"
-                :label="$t('date')"
-                prepend-icon="mdi-calendar"
-                readonly
-                v-bind="attrs"
-                v-on="on"
-                color="light-green accent-3"
-                style="width: 80%"
-                :rules="[rules.required]"
-            ></v-text-field>
-          </template>
-          <v-date-picker
-              v-model="date"
-              no-title
-              @input="menu = false"
-              scrollable
-          ></v-date-picker>
-        </v-menu>
+                no-title
+                @input="menu = false"
+                scrollable
+            ></v-date-picker>
+          </v-menu>
+        </div>
+
+      </div>
+
+      <div class="calc-item-container" style="justify-content: flex-start">
+        <div class="calc-item-size-container">
+          <v-text-field
+              v-model="lenOfDay"
+              :label="$t('len-of-day')"
+              rounded
+              outlined
+              dense
+              hide-details
+              readonly
+              color="black"
+          ></v-text-field>
+        </div>
       </div>
 
     </div>
 
-    <div class="calc-item-container" style="justify-content: flex-start">
-      <div class="calc-item-size-container">
-        <v-text-field
-            v-model="lenOfDay"
-            :label="$t('len-of-day')"
-            rounded
+    <div class="time-zone-container">
+
+      <div style="height: 3em; width: 15em">
+        <v-autocomplete
+            v-model="activeTimeZone"
+            :items="timeZones"
             outlined
-            dense
+            :label="$t('time-zone')"
+            single-line
+            rounded
             hide-details
-            readonly
-            color="black"
-        ></v-text-field>
+            clearable
+            append-icon="far fa-clock"
+        ></v-autocomplete>
       </div>
+
     </div>
- </div>
+
+  </div>
 
 </template>
 
 
 <script>
 import moment from 'moment-timezone';
+import getTimeZones from "@/timeZones/timeZoneOptions";
 
 const validateInput = (input) => {
 
@@ -148,6 +171,8 @@ export default {
       sunrise: null,
       sunset: null,
       lenOfDay: null,
+      timeZones: getTimeZones(),
+      activeTimeZone: null,
 
       rules: {
         required: value => !!value || value !== "0" || 'Required',
@@ -171,16 +196,20 @@ export default {
         let sunrise = SunCalc.getTimes(date, this.inputlati, this.inputLong).sunrise;
         let sunset = SunCalc.getTimes(date, this.inputlati, this.inputLong).sunset;
 
-        if (isNaN(sunset) || isNaN(sunset)){
+        if (isNaN(sunset) || isNaN(sunset)) {
           this.sunrise = "-";
           this.sunset = "-";
           this.lenOfDay = "24 H / 0 H";
           return;
         }
 
-        this.sunrise = moment(sunrise).tz('Europe/Helsinki').format("HH:mm");
-        this.sunset = moment(sunset).tz('Europe/Helsinki').format("HH:mm");
-
+        if (this.activeTimeZone) {
+          this.sunrise = moment(sunrise).tz(this.activeTimeZone).format("HH:mm")
+          this.sunset = moment(sunset).tz(this.activeTimeZone).format("HH:mm")
+        }else {
+          this.sunrise = moment(sunrise).format("HH:mm")
+          this.sunset = moment(sunset).format("HH:mm")
+        }
         sunrise = moment(sunrise).unix();
         sunset = moment(sunset).unix();
 
@@ -228,7 +257,13 @@ export default {
         this.showData();
       }
     },
+
+    activeTimeZone(){
+      this.$emit("timeZoneChange", this.activeTimeZone);
+      this.showData();
+    }
   },
+
 
 }
 
@@ -256,6 +291,17 @@ export default {
   height: 3em;
 }
 
+.time-zone-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding-top: 3em;
+}
+
+::v-deep .v-autocomplete.v-select--is-menu-active .v-input__icon--append .v-icon {
+  transform: none;
+}
 
 
 </style>
