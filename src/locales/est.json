@@ -8,12 +8,14 @@
   "sunrise" : "Päikesetõus",
   "sunset": "Loojang",
   "len-of-day": "Päeva pikkus",
-  "lati-button": "Keel",
+  "lang-button": "Keel",
   "theme-button": "Teema",
   "git-button": "Git",
   "info": "Info",
   "polar-night": "Polaaröö",
   "polar-day": "Polaarpäev",
+  "time-zone": "Lokaalne ajatsoon",
+
 
   "calc-heading": "Kalkulaator\n",
   "map-heading": "Kaart \n",

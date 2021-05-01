@@ -4,7 +4,9 @@
       <Calculator
           :long="long"
           :lati="lati"
-          ref="calculator" @lonAndLanChange="handleLonAndLanChange"
+          ref="calculator"
+          @lonAndLanChange="handleLonAndLanChange"
+          @timeZoneChange="handleTimeZoneChange"
       ></Calculator>
       <Map ref="map" @markerMove="handleMarkerMove"
            :long="long"
@@ -52,6 +54,9 @@ export default {
       this.lati = coords[1];
     },
 
+    handleTimeZoneChange(activeTimeZone){
+      this.$refs.diagram.activeTimeZone = activeTimeZone;
+    }
 
   }
 }
