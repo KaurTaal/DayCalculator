@@ -2,12 +2,13 @@
 - **Vue** - front-end javascript raamistik
 - **Vuetify** - valmis Vue komponendid
 - **OpenLayers** - avatud lähtekoodiga JavaScripti teek kaardi kuvamiseks
-- **Echarts** - graafikute ja andmete visualiseerimise teek.
+- **Echarts** - graafikute ja andmete visualiseerimise teek
 - **SunCalc** - moodul päikesetõusu ja loojangu arvutamiseks
 - **i18n** - keele vahetamine
 - **Font Awesome** - fondi ja ikooni tööriistakomplekt
 - **GitHub pages** - veebilehe host
 - **JUnit** - testimisraamistik
+- **GitHub actions** - ehitamiste ja testide automaatne jooksutamine
 
 ### Veebileht
  Veebirakenduse nägemiseks vajutage [siia](https://kaurtaal.github.io/DayCalculator/).
