@@ -1,5 +1,6 @@
 # Kasutatud vahendid
 
+- **Vue** - raamistik
 - **Vuetify** - kujundus
 - **OpenLayers** - kaarti implementeerimine
 - **Echarts** - diagrammi kuvamine
