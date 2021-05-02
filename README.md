@@ -1,6 +1,5 @@
 # Kasutatud vahendid
 
-- **Vue** - arenduskeskkond
 - **Vuetify** - kujundus
 - **OpenLayers** - kaarti implementeerimine
 - **Echarts** - diagrammi kuvamine
@@ -22,7 +21,7 @@ Otsustasin rakenduse jaoks kasutada OpenLayers kaarti. Alguses proovisin naiivse
 
 Diagrammi jaoks kasutasin Apache Echartsi valmis tehtud komponente. Diagrammi implementeerimine läks üsna sujuvalt. Seda enamasti Apache Echartsi kergesti jälgitava dokumentatsiooni pärast. Ütleks, et tulemuste kuvamine sobival kujul võttis diagrammi juures kõige rohkem aega. Diagrammile lisasin ka võimaluse tulemusi Exceli failina alla laadida. Exceli faili nimeks otsustasin panna vastava asukoha nime. Asukoha nime saamiseks otsustasin teha päringu avalikku andmebaasi. 
 
-Viimaseks otsustasin oma rakenduse ka avalikuks teha. Panin loodud veebilehe üles GitHub lehele. Veebirakenduse nägemiseks vajutage [siia](kaurtaal.github.io/DayCalculator/).
+Viimaseks otsustasin oma rakenduse ka avalikuks teha. Panin loodud veebilehe üles GitHub lehele. Veebirakenduse nägemiseks vajutage [siia](https://kaurtaal.github.io/DayCalculator/).
 
 
 
